@@ -1,0 +1,127 @@
+<html>
+
+<head>
+
+    <title>Odobravanje akorda</title>
+    <!--Autor stranice prototipa projekta "Akordi za gitaru" : Ratko Amanovic-->
+
+    <style>
+        .dropbtn {
+            background-color: #3399ff;
+            display: block;
+            border: none;
+            color: black;
+            padding: 0;
+            padding-left: 0px;
+            padding-right: 0px;
+            font-size: 16px;
+            border: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            width: 100%;
+            position: absolute;
+            background-color: #f1f1f1;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+    </style>
+
+</head>
+
+<body background="back-guitar.jpg">
+
+
+    <table height="5%" width="50%" align="center" bgcolor="white">
+        <tr bgcolor="#3399ff">
+            <td width="20%" align="center"><a href="home.html" style=" text-decoration: none;">
+                    <font size='5' color="black">Pocetna</font>
+                </a></td>
+            <td width="20%" align="center">
+                <div class="dropdown">
+                    <button class="dropbtn" style=" text-decoration: none;">
+                        <font size='5' color="black">Muzicki zanrovi</font>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="rock.html">
+                            <font size='5'>Rock</font>
+                        </a>
+                        <a href="pop.html">
+                            <font size='5'>Pop</font>
+                        </a>
+                        <a href="narodna.html">
+                            <font size='5'>Narodna</font>
+                        </a>
+                    </div>
+                </div>
+            </td>
+            <td width="20%" align="center"><a href="izv.html" style=" text-decoration: none;">
+                    <font size='5' color="black">Izvodjaci</font>
+            </td>
+            <td width="20%" align="center"><a href="log.html" style=" text-decoration: none;">
+                    <font size='5' color="black">Logovanje</font>
+            </td>
+            <td width="20%" align="center">
+                    <div class="dropdown">
+                        <button class="dropbtn" style=" text-decoration: none;">
+                            <font size='5' color="black">Odobravanje</font>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="odobravanje-akorda.html">
+                                <font size='5'>Akorda</font>
+                            </a>
+                            <a href="odobravanje-komentara.html">
+                                    <font size='5'>Komentara</font>
+                                </a>
+                        </div>
+                    </div>
+                </td>
+        </tr>
+    </table>
+    <table height="100%" width="50%" align="center" bgcolor="white">
+        <tr>
+            <td bgcolor="white" align="center" width="70%">
+                <ul type="none">
+                    <li>
+                        <a href="pesma.html">
+                            <font size='5'>Smak - Bluz u parku</font>
+                        </a>
+                        <button>Odobri</button>
+                    </li>
+                </ul>
+                <br>
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
+
+</html>
