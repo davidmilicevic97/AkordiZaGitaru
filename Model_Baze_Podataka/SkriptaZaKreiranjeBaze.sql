@@ -37,6 +37,8 @@ CREATE TABLE Pesma
 	naziv                VARCHAR(40) NULL,
 	stanje               VARCHAR(20) NOT NULL CHECK ( stanje IN ('neodobren', 'odobren') ),
 	putanjaDoAkorda      VARCHAR(255) NULL,
+	ytLink               VARCHAR(255) NULL,
+	brPregleda           INTEGER NOT NULL DEFAULT 0,
 	idZanr               INTEGER NULL,
 	idAutor              INTEGER NULL
 );
@@ -65,99 +67,3 @@ ADD CONSTRAINT R_3 FOREIGN KEY (idZanr) REFERENCES Zanr (id);
 
 ALTER TABLE Pesma
 ADD CONSTRAINT R_4 FOREIGN KEY (idAutor) REFERENCES Autor (id);
-=======
-CREATE TABLE [Autor]
-( 
-	[id]                 numeric  NOT NULL ,
-	[naziv]              char(40)  NULL 
-)
-go
-
-ALTER TABLE [Autor]
-	ADD CONSTRAINT [XPKAutor] PRIMARY KEY  CLUSTERED ([id] ASC)
-go
-
-CREATE TABLE [Komentar]
-( 
-	[id]                 numeric  NOT NULL ,
-	[text]               char(256)  NULL ,
-	[vreme]              datetime  NULL ,
-	[idPes]              numeric  NOT NULL ,
-	[idKor]              numeric  NOT NULL
-)
-go
-
-ALTER TABLE [Komentar]
-	ADD CONSTRAINT [XPKKomentar] PRIMARY KEY  CLUSTERED ([id] ASC)
-go
-
-CREATE TABLE [Korisnik]
-( 
-	[id]                 numeric  NOT NULL  IDENTITY ,
-	[username]           char(20)  NULL ,
-	[passwod]            char(20)  NULL ,
-	[tip]                char(20)  NULL 
-	CONSTRAINT [Validation_Rule_175_794425311]
-		CHECK  ( [tip]='ADMIN' OR [tip]='MODERATOR' OR [tip]='KORISNIK' )
-)
-go
-
-ALTER TABLE [Korisnik]
-	ADD CONSTRAINT [XPKKorisnik] PRIMARY KEY  CLUSTERED ([id] ASC)
-go
-
-ALTER TABLE [Korisnik]
-	ADD CONSTRAINT [XAK1Korisnik] UNIQUE ([username]  ASC)
-go
-
-CREATE TABLE [Pesma]
-( 
-	[id]                 numeric  NOT NULL ,
-	[naziv]              char(40)  NULL ,
-	[stanje]             char(20)  NOT NULL ,
-	[putanjaDoAkorda]    char(256)  NULL ,
-	[idZanr]             numeric  NOT NULL ,
-	[idAutor]            numeric  NOT NULL
-	CONSTRAINT [Validation_Rule_255_777981155]
-		CHECK  ( [stanje]='odobrena' OR [stanje]='neodobrena' )
-)
-go
-
-ALTER TABLE [Pesma]
-	ADD CONSTRAINT [XPKPesma] PRIMARY KEY  CLUSTERED ([id] ASC)
-go
-
-CREATE TABLE [Zanr]
-( 
-	[id]                 numeric  NOT NULL ,
-	[tip]                char(20)  NULL 
-)
-go
-
-ALTER TABLE [Zanr]
-	ADD CONSTRAINT [XPKZanr] PRIMARY KEY  CLUSTERED ([id] ASC)
-go
-
-
-ALTER TABLE [Komentar]
-	ADD CONSTRAINT [R_4] FOREIGN KEY ([idKor]) REFERENCES [Korisnik]([id])
-		ON DELETE SET NULL
-		ON UPDATE CASCADE
-go
-
-ALTER TABLE [Komentar]
-	ADD CONSTRAINT [R_5] FOREIGN KEY ([idPes]) REFERENCES [Pesma]([id])
-		ON DELETE CASCADE
-		ON UPDATE CASCADE
-go
-
-
-ALTER TABLE [Pesma]
-	ADD CONSTRAINT [R_6] FOREIGN KEY ([idZanr]) REFERENCES [Zanr]([id])
-		ON UPDATE CASCADE
-go
-
-ALTER TABLE [Pesma]
-	ADD CONSTRAINT [R_7] FOREIGN KEY ([idAutor]) REFERENCES [Autor]([id])
-		ON UPDATE CASCADE
-go
