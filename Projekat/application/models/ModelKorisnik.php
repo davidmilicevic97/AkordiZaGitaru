@@ -39,7 +39,7 @@ class ModelKorisnik extends CI_Model {
     }
     
     public function ispravanPassword($password) {
-        if ($this->korisnik->password == $password) {
+        if ($this->korisnik != NULL && $this->korisnik->password == $password) {
             return TRUE;
         } else {
             return FALSE;

@@ -19,14 +19,14 @@ class ModelKomentar extends CI_Model {
 
     public function dodajKomentar($text, $idPesme, $idKorisnika) {
         $this->db->set("text", $text);
-        $this->db->set("vreme", mdate());
+        $this->db->set("vreme", mdate("%Y-%m-%d %H:%i:%S"));
         $this->db->set("idPes", $idPesme);
         $this->db->set("idKor", $idKorisnika);
         $this->db->insert("komentar");
     }
     
     public function dohvatiKomentareZaPesmu($idPesme) {
-        $this->db->where("id", $idPesme);
+        $this->db->where("idPes", $idPesme);
         $result = $this->db->get("komentar")->result();
         return $result;
     }
@@ -40,6 +40,6 @@ class ModelKomentar extends CI_Model {
         // mozda dodati da se apdejtuje i vreme komentara?
         $this->db->set("text", $text);
         $this->db->where("id", $id);
-        $this->db->update("korisnik");
+        $this->db->update("komentar");
     }
 }
