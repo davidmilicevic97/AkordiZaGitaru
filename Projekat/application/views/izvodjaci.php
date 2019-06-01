@@ -20,8 +20,7 @@
                                         <tr>
                                             <th scope = 'col'>#</th>
                                             <th scope = 'col'>Autor</th>
-                                            <th scope = 'col'>Delo</th>
-                                            <?php
+                                            <?php 
                                             if (isset($odobravanje)) {
                                                 echo "<th scope = 'col'></th>";
                                             }
@@ -29,13 +28,12 @@
                                         </tr>
                                     </thead>
                                     <?php
-                                    if (isset($numere)) {
+                                    if (isset($autori)) {
                                         $redniBr = $pocetniRedniBr;
-                                        foreach ($numere as $numera) {
+                                        foreach ($autori as $autor) {
                                             echo "<tr>"
                                             . "<td scope = 'col'>" . $redniBr++ . "</td>"
-                                            . "<td scope = 'col'>" . $numera->autor . "</td>"
-                                            . "<td scope = 'col'><a href =" . site_url("$controller/pesma/") . $numera->id . ">" . $numera->naziv . "</a></td>";
+                                            . "<td scope = 'col'><a href =" . site_url("$controller/muzika/0/") . $autor->id . ">" . $autor->naziv . "</a></td>";
                                             if (isset($odobravanje)) {
                                                 echo "<td scope = 'col'><a class='btn btn-primary' href=" . site_url("$controller/pesma") . " '>Pregledaj</a></td>";
                                             }
