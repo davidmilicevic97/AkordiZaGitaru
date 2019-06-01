@@ -27,7 +27,10 @@ class ModelKomentar extends CI_Model {
     
     public function dohvatiKomentareZaPesmu($idPesme) {
         $this->db->where("idPes", $idPesme);
-        $result = $this->db->get("komentar")->result();
+        $this->db->from("komentar");
+        $this->db->join("korisnik", "komentar.idKor = korisnik.id", "left");
+        $this->db->select("komentar.*, korisnik.username as 'username'");
+        $result = $this->db->get()->result();
         return $result;
     }
     

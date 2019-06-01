@@ -26,7 +26,7 @@ class ModelKorisnik extends CI_Model {
         $this->db->set("tip", "korisnik");
         $this->db->insert("korisnik");
     }
-
+    
     public function dohvatiKorisnika($username) {
         $result = $this->db->where("username", $username)->get("korisnik");
         $korisnik = $result->row();

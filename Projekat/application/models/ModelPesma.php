@@ -13,15 +13,10 @@
  */
 class ModelPesma extends CI_Model {
 
-    public $pgSize;
-    public $currPg, $totalPgs;
-
+    public $velicinaStranice = 3;
+    
     public function __construct() {
         parent::__construct();
-
-        $this->pgSize = 20;
-        $this->currPg = 0;
-        $this->totalPgs = 0;
     }
 
     public function dodajPesmu($naziv, $putanja, $ytLink, $idZanr, $idAutor) {
@@ -41,18 +36,36 @@ class ModelPesma extends CI_Model {
             $this->db->where("id", $id);
             $this->db->update("pesma");
         }
-        return $this->db->where("id", $id)->get("pesma")->row();
+        
+        $this->db->from("pesma");
+        $this->db->where("pesma.id", $id);
+        $this->db->join("autor", "autor.id = pesma.idAutor", 'left');
+        $this->db->select("pesma.*, autor.naziv as 'autor'");
+        return $this->db->get()->row();
     }
 
-    public function dohvatiPesme($idZanr = NULL, $idAutor = NULL) {
-        if ($idZanr != NULL) {
+    public function brojPesama($idZanr, $idAutor){
+        if ($idZanr != NULL && $idZanr != 0) {
             $this->db->where("idZanr", $idZanr);
         }
-        if ($idAutor != NULL) {
+        if ($idAutor != NULL && $idAutor != 0) {
             $this->db->where("idAutor", $idAutor);
         }
-        $this->db->limit($this->pgSize, max($this->currPg - 1, 0) * $this->pgSize);
-        return $this->db->get("pesma")->result();
+        return $this->db->count_all_results("pesma");
+    }
+    
+    public function dohvatiPesme($limit, $start, $idZanr = NULL, $idAutor = NULL) {
+        if ($idZanr != NULL && $idZanr != 0) {
+            $this->db->where("idZanr", $idZanr);
+        }
+        if ($idAutor != NULL && $idAutor != 0) {
+            $this->db->where("idAutor", $idAutor);
+        }
+        $this->db->from("pesma");
+        $this->db->join("autor", "autor.id = pesma.idAutor", 'left');
+        $this->db->select("pesma.*, autor.naziv as 'autor'");
+        $this->db->limit($limit, $start);
+        return $this->db->get()->result();
     }
 
     public function odobriPesmu($id) {
