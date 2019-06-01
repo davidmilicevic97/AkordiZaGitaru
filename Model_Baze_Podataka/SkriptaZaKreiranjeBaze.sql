@@ -1,39 +1,30 @@
 
 CREATE TABLE Autor
 (
-	id                   INTEGER NOT NULL,
+	id                   INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	naziv                VARCHAR(40) NULL
-);
-
-ALTER TABLE Autor
-ADD CONSTRAINT XPKAutor PRIMARY KEY (id);
+) AUTO_INCREMENT = 1;
 
 CREATE TABLE Komentar
 (
-	id                   INTEGER NOT NULL,
+	id                   INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	text                 VARCHAR(255) NULL,
 	vreme                DATETIME NULL,
 	idPes                INTEGER NULL,
 	idKor                INTEGER NULL
-);
-
-ALTER TABLE Komentar
-ADD CONSTRAINT XPKKomentar PRIMARY KEY (id);
+) AUTO_INCREMENT = 1;
 
 CREATE TABLE Korisnik
 (
-	id                   INTEGER NOT NULL,
+	id                   INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	username             VARCHAR(20) NOT NULL,
 	password             VARCHAR(20) NULL,
 	tip                  VARCHAR(20) NOT NULL CHECK ( tip IN ('admin', 'moderator', 'korisnik') )
-);
-
-ALTER TABLE Korisnik
-ADD CONSTRAINT XPKKorisnik PRIMARY KEY (id);
+) AUTO_INCREMENT = 1;
 
 CREATE TABLE Pesma
 (
-	id                   INTEGER NOT NULL,
+	id                   INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	naziv                VARCHAR(40) NULL,
 	stanje               VARCHAR(20) NOT NULL CHECK ( stanje IN ('neodobren', 'odobren') ),
 	putanjaDoAkorda      VARCHAR(255) NULL,
@@ -41,19 +32,13 @@ CREATE TABLE Pesma
 	brPregleda           INTEGER NOT NULL DEFAULT 0,
 	idZanr               INTEGER NULL,
 	idAutor              INTEGER NULL
-);
-
-ALTER TABLE Pesma
-ADD CONSTRAINT XPKPesma PRIMARY KEY (id);
+) AUTO_INCREMENT = 1;
 
 CREATE TABLE Zanr
 (
-	id                   INTEGER NOT NULL,
+	id                   INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	tip                  VARCHAR(20) NULL
-);
-
-ALTER TABLE Zanr
-ADD CONSTRAINT XPKZanr PRIMARY KEY (id);
+) AUTO_INCREMENT = 1;
 
 ALTER TABLE Komentar
 ADD CONSTRAINT R_1 FOREIGN KEY (idPes) REFERENCES Pesma (id)
