@@ -19,76 +19,32 @@
                                 <?php
                                 if (isset($komentari)) {
                                     foreach ($komentari as $komentar) {
-                                        echo ' 
-                        <div class ="row">
-                            <div class ="col-xl-8">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-10">
-                                                <p>
-                                                    <p class="float-left text-info" ><strong>' . $komentar->ime . '</strong></p>
-                                                </p>
-                                                <div class="clearfix"></div>
-                                                <p>' . $komentar->tekst . '</p>
-                                                <p>
-                                                   <button type="submit" class="btn btn-warning" name = "odobri">Odobri</button>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>';
+                                        echo " 
+                                            <div class ='row'>
+                                                <div class ='col-xl-8'>
+                                                    <div class='card'>
+                                                        <div class='card-body'>
+                                                            <div class='row'>
+                                                                <div class='col-md-10'>
+                                                                    <p class='float-left text-info' ><strong>" . $komentar->username . " (". $komentar->vreme .")</strong></p>
+                                                                    <div class='clearfix'></div>
+                                                                    <p>" . $komentar->text . "</p>
+                                                                    <p>
+                                                                       <a class='btn btn-primary' href=" . site_url("$controller/odobriKomentar/") . $komentar->id . ">Odobri</a>
+                                                                       <a class='btn btn-primary' href=" . site_url("$controller/obrisiKomentar/") . $komentar->id . ">Obriši</a>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>";
                                     }
                                 }
                                 ?>
-                                <div class ="row">
-                                    <div class ="col-xl-7">
-                                        <form action ="<?php echo site_url("$controller/muzika");
-                                ?>" method = "post">
-                                            <button type="submit" class="btn btn-warning" name = "prva"> <!-- mozes preko post metoda proveriti sta je pritisnuto -->
-                                                Prva</button>
-                                            <button type="submit" class="btn btn-warning" name = "prethodna"
-                                            <?php
-                                            if (isset($trenStr)) {
-                                                if ($trenStr == 1) {
-                                                    echo "disabled";
-                                                }
-                                            }
-                                            ?>
-                                                    >
-                                                Prethodna</button>
-                                            <button type="submit" class="btn btn-warning" name = "sledeca"
-                                            <?php
-                                            if (isset($trenStr) && isset($ukupnoStr)) {
-                                                if ($trenStr == $ukupnoStr) {
-                                                    echo "disabled";
-                                                }
-                                            }
-                                            ?>
-                                                    >
-                                                Sledeća</button>  <!-- vidi da li treba skok na stranicu da se uradi-->                
-                                        </form>
-                                    </div>
-                                    <div class ="col-xl-2 text-right">
-                                        <?php
-                                        if (isset($trenStr)) {
-                                            echo $trenStr;
-                                        } else {
-                                            echo "?";
-                                        }
-                                        echo "/";
-                                        if (isset($ukupnoStr)) {
-                                            echo $ukupnoStr;
-                                        } else {
-                                            echo "?";
-                                        }
-                                        ?>
-                                    </div>
-                                </div> 
                             </div>
                         </div>
+                        <?php echo $links; ?>
                     </div>
                 </div>
             </div>

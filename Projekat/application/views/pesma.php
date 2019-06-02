@@ -115,14 +115,9 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-10">
-                                                <p>
-                                                    <p class="float-left text-info" ><strong>' . $komentar->username . '</strong></p>
-                                                </p>
+                                                <p class="float-left text-info" ><strong>' . $komentar->username . ' ('. $komentar->vreme .')</strong></p>
                                                 <div class="clearfix"></div>
                                                 <p>' . $komentar->text . '</p>
-                                                <p>
-
-                                                </p>
                                             </div>
                                         </div>
                                     </div>

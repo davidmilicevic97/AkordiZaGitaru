@@ -49,11 +49,15 @@
                             <a class="nav-link text-uppercase text-expanded dropdown-toggle" data-toggle="dropdown"  href="#">Žanrovi</a> 
                             <ul class="dropdown-menu" role = "menu"  aria-labelledby="dLabel">
                                 <li class="dropdown-item"><a href="<?php echo site_url("Gost/muzika/") ?>">Svi zanrovi</a></li>
-                                <li class="dropdown-item"><a href="<?php echo site_url("Gost/muzika/") . strval($zanrModel->dohvatiId("Rokenrol")); ?>">Rokenrol</a></li>
-                                <li class="dropdown-item"><a href="<?php echo site_url("Gost/muzika/") . strval($zanrModel->dohvatiId("Pank rok")); ?>">Pank rok</a></li>
-                                <li class="dropdown-item"><a href="<?php echo site_url("Gost/muzika/") . strval($zanrModel->dohvatiId("Bluz")); ?>">Bluz</a></li>
-                                <li class="dropdown-item"><a href="<?php echo site_url("Gost/muzika/") . strval($zanrModel->dohvatiId("Narodna")); ?>">Narodna</a></li>
-                                <li class="dropdown-item"><a href="<?php echo site_url("Gost/muzika/") . strval($zanrModel->dohvatiId("Estradna")); ?>">Estradna</a></li>
+                                <?php
+                                    foreach ($zanrModel->dohvatiZanrove() as $zanr) {
+                                        echo "<li class='dropdown-item'><a href='";
+                                        echo site_url("Gost/muzika/").$zanr->id;
+                                        echo "'>";
+                                        echo $zanr->tip;
+                                        echo "</a></li>";
+                                    }
+                                ?>
                             </ul>
                         </li>
                         <li class="nav-item px-lg-4">

@@ -6,7 +6,7 @@
                     <h2 class="section-heading mb-5">
                         <span class="section-heading-lower">Forma za dodavanje akorda:</span> 
                     </h2>
-                    <form name="dodavanjeAkordaForm" action="<?php echo site_url('Korisnik/dodajAkorde') ?>" method="post">
+                    <form name="dodavanjeAkordaForm" action="<?php echo site_url("$controller/dodajAkorde") ?>" method="post">
                         <table class = "table table-striped mt-5">
                             <tr>
                                 <td>Autor/Bend:</td>

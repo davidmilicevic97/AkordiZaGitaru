@@ -6,7 +6,7 @@
                     <h2 class="section-heading mb-5">
                         <span class="section-heading-lower">Forma za dodavanje akorda:</span> 
                     </h2>
-                    <form name="izmenaAkordaForm" action="<?php echo site_url('Korisnik/izmeniAkorde') ?>" method="post">
+                    <form name="izmenaAkordaForm" action="<?php echo site_url("$controller/izmeniAkorde") ?>" method="post">
                         <input type = "hidden" name = "idPesme" value = "<?php echo $idPesme; ?>">
                         <table class = "table table-striped mt-5">
                             <tr>
