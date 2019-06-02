@@ -17,10 +17,11 @@
                             <td><?php echo form_error("username","<font color='red'>","</font>"); ?></td>
                         </tr>
                         <tr>
-                            <td>Lozinka</td>
+                            <td>Lozinka:</td>
                             <td><input type = "password" name = "password"></td>
                             <td><?php echo form_error("password","<font color='red'>","</font>"); ?></td>
                         </tr>
+                        <tr>
                             <td colspan="3"><button type="submit" class="btn btn-primary" ">Login</button></td>
                         </tr>
                     </table>

@@ -20,7 +20,7 @@ class Gost extends CI_Controller {
         $this->load->model("ModelKomentar");
         $this->load->model("ModelZanr");
         $this->load->model("ModelAutor");
-        
+
         // redirekcija u zavisnosti od korisnika koji je ulogovan
         $korisnik = $this->session->userdata('korisnik');
         if ($korisnik != NULL) {
@@ -102,8 +102,7 @@ class Gost extends CI_Controller {
 
         $data = array();
         $data["idZanr"] = $idZanr;
-        $data["numere"] = $this->ModelPesma->dohvatiPesme($this->ModelPesma->velicinaStranice,
-                $pocetniRedniBr, $idZanr, $idAutor, $pesmaPocinjeSlovom);
+        $data["numere"] = $this->ModelPesma->dohvatiPesme($this->ModelPesma->velicinaStranice, $pocetniRedniBr, $idZanr, $idAutor, $pesmaPocinjeSlovom);
         $data["links"] = $this->pagination->create_links();
         $data["controller"] = "gost";
         $data["pocetniRedniBr"] = $pocetniRedniBr + 1;
@@ -174,12 +173,15 @@ class Gost extends CI_Controller {
     public function registrujse() {
         $this->form_validation->set_rules("username", "Korisničko ime", "required|min_length[8]|max_length[20]");
         $this->form_validation->set_rules("password", "Lozinka", "required|min_length[8]|max_length[20]");
+        $this->form_validation->set_rules("confirmPassword", "Potvrda lozinke", "required|min_length[8]|max_length[20]");
         $this->form_validation->set_message("required", "Polje {field} je ostalo prazno!");
         $this->form_validation->set_message("min_length", "Polje {field} mora imati najmanje 8 karaktera!");
         $this->form_validation->set_message("max_length", "Polje {field} ne sme imati više od 20 karaktera!");
         if ($this->form_validation->run()) {
             if ($this->ModelKorisnik->dohvatiKorisnika($this->input->post("username"))) {
                 $this->registracija("Korisničko ime već postoji!");
+            } elseif ($this->input->post("password") != $this->input->post("confirmPassword")) {
+                $this->registracija("Unete lozike se ne poklapaju!");
             } else {
                 $username = $this->input->post("username");
                 $password = $this->input->post("password");
