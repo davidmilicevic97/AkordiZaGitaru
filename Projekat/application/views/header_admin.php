@@ -39,6 +39,11 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav mx-auto">
+                        <li class="nav-item active px-lg-4">
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Admin/index"); ?>">Početna
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
                         <li class="nav-item px-lg-4">   
                             <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Admin/odobravanjeModeratora"); ?>">Postavljanje moderatora</a>
                         </li>

@@ -20,6 +20,22 @@ class Korisnik extends CI_Controller {
         $this->load->model("ModelKomentar");
         $this->load->model("ModelZanr");
         $this->load->model("ModelAutor");
+        
+        // redirekcija u zavisnosti od korisnika koji je ulogovan
+        $korisnik = $this->session->userdata('korisnik');
+        if ($korisnik == NULL) {
+            redirect("Gost");
+        }
+        else {
+            switch ($korisnik->tip) {
+                case "moderator":
+                    redirect("Moderator");
+                    break;
+                case "admin":
+                    redirect("Admin");
+                    break;
+            }
+        }
     }
 
     public function index() {
