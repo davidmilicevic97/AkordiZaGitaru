@@ -42,7 +42,10 @@ class Gost extends CI_Controller {
     }
 
     public function index() {
-        $this->prikazi("index.php");
+        $args = array();
+        $args["controller"] = "Gost";
+        $args["modelPesma"] = $this->ModelPesma;
+        $this->prikazi("index.php", $args);
     }
 
     public function prikazi($glavniDeo, $data = null) {

@@ -55,10 +55,10 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <input type="button" value="Kreni" id="start" />
+                                                    <input class="btn btn-primary" type="button" value="Kreni" id="start" />
                                                 </td>
                                                 <td>
-                                                    <input type="button" value="Zaustavi" id="stop" />
+                                                    <input class="btn btn-primary" type="button" value="Zaustavi" id="stop" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -96,7 +96,7 @@
                                     </div>               
                                     <div class = "row">
                                         <div class = "col-xl-1">
-                                            <button type="submit" class="btn btn-warning mt-1 mb-3""/>Pošalji</button></td>
+                                            <button type="submit" class="btn btn-primary mt-1 mb-3"/>Pošalji</button></td>
                                         </div>
                                     </div>
                                 </form> 

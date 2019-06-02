@@ -42,7 +42,7 @@
                                         </tr>
                                         <tr>
                                             <td align="center">
-                                                <button type = "submit" class = "btn btn-success" >Pretraga</button>
+                                                <button type = "submit" class = "btn btn-primary" >Pretraga</button>
                                             </td>
                                         </tr>
                                     </table>
