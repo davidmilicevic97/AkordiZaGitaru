@@ -16,7 +16,7 @@
                         <div class ="row">
                             <div class ="col-xl-8 text-justify">
                                 <?php
-                                echo $pesma->putanjaDoAkorda;
+                                echo file_get_contents($pesma->putanjaDoAkorda);
                                 ?> 
                             </div>
                             <div class ="col-xl-4">

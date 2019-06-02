@@ -201,15 +201,25 @@ class Moderator extends CI_Controller {
 
     public function dodajAkorde() {
         $korisnikId = $this->session->userdata('korisnik')->id;
-
+        
         $autor = $this->input->post("author");
         $nazivPesme = $this->input->post("songName");
         $ytLink = $this->input->post("ytLink");
         $textPesme = $this->input->post("song");
         $zanrId = $this->input->post("zanrId");
-        $autorId = $this->dohvatiAutorIdIliDodaj($autor);
-
-        $this->ModelPesma->dodajPesmu($nazivPesme, $textPesme, $ytLink, $zanrId, $autorId, $korisnikId);
+        $autorId = $this->dohvatiAutorIdIliDodaj($autor);  
+        
+        $folderPath = $this->input->server("DOCUMENT_ROOT")."/akordiFolder";
+        $currTime = round(microtime(true) * 1000);
+        if (!file_exists($folderPath)) {
+            mkdir($folderPath, 0777, true);
+        }
+        $putanjaDoAkorda = $folderPath."/akordi_".
+                $this->session->userdata("korisnik")->username."_".$currTime;
+        file_put_contents($putanjaDoAkorda, $textPesme);
+                
+        $this->ModelPesma->dodajPesmu($nazivPesme, $putanjaDoAkorda, $ytLink, 
+                $zanrId, $autorId, $korisnikId);
         redirect("Moderator");
     }
 
@@ -244,13 +254,14 @@ class Moderator extends CI_Controller {
         $args["nazivPesme"] = $pesma->naziv;
         $args["ytLink"] = $pesma->ytLink;
         $args["zanrId"] = $pesma->idZanr;
-        $args["textPesme"] = $pesma->putanjaDoAkorda;
+        $args["putanjaDoAkorda"] = $pesma->putanjaDoAkorda;
         $args["controller"] = "moderator";
         $this->prikazi("izmeni_akorde.php", $args);
     }
 
     public function izmeniAkorde() {
         $idPesme = $this->input->post("idPesme");
+        $putanjaDoAkorda = $this->input->post("putanjaDoAkorda");
         $autor = $this->input->post("author");
         $nazivPesme = $this->input->post("songName");
         $ytLink = $this->input->post("ytLink");
@@ -258,7 +269,9 @@ class Moderator extends CI_Controller {
         $zanrId = $this->input->post("zanrId");
         $autorId = $this->dohvatiAutorIdIliDodaj($autor);
 
-        $this->ModelPesma->promeniPesmu($idPesme, $nazivPesme, $textPesme, $ytLink, $zanrId, $autorId);
+        file_put_contents($putanjaDoAkorda, $textPesme);
+        $this->ModelPesma->promeniPesmu($idPesme, $nazivPesme, $putanjaDoAkorda, 
+                $ytLink, $zanrId, $autorId);
         redirect("Moderator");
     }
 

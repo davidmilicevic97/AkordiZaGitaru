@@ -12,7 +12,7 @@
  * @author David
  */
 class Korisnik extends CI_Controller {
-
+    
     public function __construct() {
         parent::__construct();
 
@@ -146,9 +146,18 @@ class Korisnik extends CI_Controller {
         $ytLink = $this->input->post("ytLink");
         $textPesme = $this->input->post("song");
         $zanrId = $this->input->post("zanrId");
-        $autorId = $this->dohvatiAutorIdIliDodaj($autor);    
+        $autorId = $this->dohvatiAutorIdIliDodaj($autor);  
         
-        $this->ModelPesma->dodajPesmu($nazivPesme, $textPesme, $ytLink, 
+        $folderPath = $this->input->server("DOCUMENT_ROOT")."/akordiFolder";
+        $currTime = round(microtime(true) * 1000);
+        if (!file_exists($folderPath)) {
+            mkdir($folderPath, 0777, true);
+        }
+        $putanjaDoAkorda = $folderPath."/akordi_".
+                $this->session->userdata("korisnik")->username."_".$currTime;
+        file_put_contents($putanjaDoAkorda, $textPesme);
+                
+        $this->ModelPesma->dodajPesmu($nazivPesme, $putanjaDoAkorda, $ytLink, 
                 $zanrId, $autorId, $korisnikId);
         redirect("Korisnik");
     }
@@ -184,13 +193,14 @@ class Korisnik extends CI_Controller {
         $args["nazivPesme"] = $pesma->naziv;
         $args["ytLink"] = $pesma->ytLink;
         $args["zanrId"] = $pesma->idZanr;
-        $args["textPesme"] = $pesma->putanjaDoAkorda;
+        $args["putanjaDoAkorda"] = $pesma->putanjaDoAkorda;
         $args["controller"] = "korisnik";
         $this->prikazi("izmeni_akorde.php", $args);
     }
     
     public function izmeniAkorde() {
         $idPesme = $this->input->post("idPesme");
+        $putanjaDoAkorda = $this->input->post("putanjaDoAkorda");
         $autor = $this->input->post("author");
         $nazivPesme = $this->input->post("songName");
         $ytLink = $this->input->post("ytLink");
@@ -198,7 +208,8 @@ class Korisnik extends CI_Controller {
         $zanrId = $this->input->post("zanrId");
         $autorId = $this->dohvatiAutorIdIliDodaj($autor);
         
-        $this->ModelPesma->promeniPesmu($idPesme, $nazivPesme, $textPesme, 
+        file_put_contents($putanjaDoAkorda, $textPesme);
+        $this->ModelPesma->promeniPesmu($idPesme, $nazivPesme, $putanjaDoAkorda, 
                 $ytLink, $zanrId, $autorId);
         redirect("Korisnik");
     }
