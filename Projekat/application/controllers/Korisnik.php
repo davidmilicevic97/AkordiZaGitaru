@@ -72,11 +72,11 @@ class Korisnik extends CI_Controller {
         $data["numere"] = $this->ModelPesma->dohvatiPesme($this->ModelPesma->velicinaStranice, $pocetniRedniBr, $idZanr, $idAutor);
         $data["links"] = $this->pagination->create_links();
         $data["controller"] = "korisnik";
-        $data["pocetniRedniBr"] = $pocetniRedniBr;
+        $data["pocetniRedniBr"] = $pocetniRedniBr + 1;
         $this->prikazi("list.php", $data);
     }
 
-    public function izvodjaci($idZanr = 0, $idAutor = 0) {
+    public function izvodjaci() {
         $config = array();
         $config["base_url"] = base_url() . "/index.php/korisnik/izvodjaci/";
         $config["total_rows"] = $this->ModelAutor->brojAutora(); //broj autora
@@ -91,7 +91,7 @@ class Korisnik extends CI_Controller {
         $data["autori"] = $this->ModelAutor->dohvatiAutore($this->ModelPesma->velicinaStranice, $pocetniRedniBr);
         $data["links"] = $this->pagination->create_links();
         $data["controller"] = "korisnik";
-        $data["pocetniRedniBr"] = $pocetniRedniBr;
+        $data["pocetniRedniBr"] = $pocetniRedniBr + 1;
         $this->prikazi("izvodjaci.php", $data);
     }
 
@@ -104,7 +104,9 @@ class Korisnik extends CI_Controller {
     }
 
     public function dodajAkordePrikaz() {
-        $this->prikazi("dodaj_akorde.php");
+        $args = array();
+        $args["controller"] = "korisnik";
+        $this->prikazi("dodaj_akorde.php", $args);
     }
 
     private function dohvatiAutorIdIliDodaj($autor) {
@@ -150,7 +152,7 @@ class Korisnik extends CI_Controller {
                 dohvatiPesmeZaKorisnika($this->ModelPesma->velicinaStranice, $pocetniRedniBr, $korisnikId);
         $data["links"] = $this->pagination->create_links();
         $data["controller"] = "korisnik";
-        $data["pocetniRedniBr"] = $pocetniRedniBr;
+        $data["pocetniRedniBr"] = $pocetniRedniBr + 1;
         $this->prikazi("listZaKorisnika.php", $data);  
     }
     
@@ -164,6 +166,7 @@ class Korisnik extends CI_Controller {
         $args["ytLink"] = $pesma->ytLink;
         $args["zanrId"] = $pesma->idZanr;
         $args["textPesme"] = $pesma->putanjaDoAkorda;
+        $args["controller"] = "korisnik";
         $this->prikazi("izmeni_akorde.php", $args);
     }
     

@@ -70,10 +70,10 @@ class Gost extends CI_Controller {
 
     public function muzika($idZanr = 0, $idAutor = 0) {
         $config = array();
-        $config["base_url"] = base_url() . "/index.php/Moderator/muzika/" . $idZanr . "/" . $idAutor . "/";
+        $config["base_url"] = base_url() . "/index.php/Gost/muzika/" . $idZanr . "/" . $idAutor . "/";
         $config["total_rows"] = $this->ModelPesma->brojPesama($idZanr, $idAutor);
         $config["per_page"] = $this->ModelPesma->velicinaStranice;
-        $config["uri_segment"] = 5; 
+        $config["uri_segment"] = 5;
         $this->postaviConfigZaPaginaciju($config);
         $this->pagination->initialize($config);
 
@@ -83,11 +83,11 @@ class Gost extends CI_Controller {
         $data["numere"] = $this->ModelPesma->dohvatiPesme($this->ModelPesma->velicinaStranice, $pocetniRedniBr, $idZanr, $idAutor);
         $data["links"] = $this->pagination->create_links();
         $data["controller"] = "gost";
-        $data["pocetniRedniBr"] = $pocetniRedniBr;
+        $data["pocetniRedniBr"] = $pocetniRedniBr + 1;
         $this->prikazi("list.php", $data);
     }
 
-    public function izvodjaci($idZanr = 0, $idAutor = 0) {
+    public function izvodjaci() {
         $config = array();
         $config["base_url"] = base_url() . "/index.php/Gost/izvodjaci/";
         $config["total_rows"] = $this->ModelAutor->brojAutora(); //broj autora
@@ -102,7 +102,7 @@ class Gost extends CI_Controller {
         $data["autori"] = $this->ModelAutor->dohvatiAutore($this->ModelPesma->velicinaStranice, $pocetniRedniBr);
         $data["links"] = $this->pagination->create_links();
         $data["controller"] = "gost";
-        $data["pocetniRedniBr"] = $pocetniRedniBr;
+        $data["pocetniRedniBr"] = $pocetniRedniBr + 1;
         $this->prikazi("izvodjaci.php", $data);
     }
 

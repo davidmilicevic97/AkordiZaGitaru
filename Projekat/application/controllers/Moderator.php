@@ -28,15 +28,43 @@ class Moderator extends CI_Controller {
     }
 
     public function odobravanjeAkorda() {
-        $this->muzika();
+        $config = array();
+        $config["base_url"] = base_url() . "/index.php/Moderator/odobravanjeAkorda/";
+        $config["total_rows"] = $this->ModelPesma->brojNeodobrenihPesama();
+        $config["per_page"] = $this->ModelPesma->velicinaStranice;
+        $uri_segment = 3;
+        $config["uri_segment"] = $uri_segment;
+        $this->postaviConfigZaPaginaciju($config);
+        $this->pagination->initialize($config);
+
+        $pocetniRedniBr = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
+
+        $data = array();
+        $data["numere"] = $this->ModelPesma->dohvatiNeodobrenePesme($this->ModelPesma->velicinaStranice, $pocetniRedniBr);
+        $data["links"] = $this->pagination->create_links();
+        $data["controller"] = "moderator";
+        $data["pocetniRedniBr"] = $pocetniRedniBr + 1;
+        $this->prikazi("list.php", $data);
     }
 
     public function odobravanjeKomentara() {
-        $this->komentari();
-    }
-    
-    public function brisanjeAkorda(){
-        
+        $config = array();
+        $config["base_url"] = base_url() . "/index.php/Moderator/odobravanjeKomentara/";
+        $config["total_rows"] = $this->ModelKomentar->brojNeodobrenihKomentara();
+        $config["per_page"] = $this->ModelKomentar->velicinaStranice;
+        $uri_segment = 3;
+        $config["uri_segment"] = $uri_segment;
+        $this->postaviConfigZaPaginaciju($config);
+        $this->pagination->initialize($config);
+
+        $pocetniRedniBr = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
+
+        $data = array();
+        $data["komentari"] = $this->ModelKomentar->dohvatiNeodobreneKomentare($this->ModelPesma->velicinaStranice, $pocetniRedniBr);
+        $data["links"] = $this->pagination->create_links();
+        $data["controller"] = "moderator";
+        $data["pocetniRedniBr"] = $pocetniRedniBr + 1;
+        $this->prikazi("comment_list.php", $data);
     }
 
     public function prikazi($glavniDeo, $data = null) {
@@ -45,6 +73,12 @@ class Moderator extends CI_Controller {
         $this->load->view("header_moderator.php", $data);
         $this->load->view($glavniDeo, $data);
         $this->load->view("footer.php");
+    }
+
+    public function izlogujSe() {
+        $this->session->unset_userdata("korisnik");
+        $this->session->sess_destroy();
+        redirect("Gost");
     }
 
     public function onama() {
@@ -64,44 +98,42 @@ class Moderator extends CI_Controller {
         $config["num_tag_close"] = "</li>";
     }
 
-    public function muzika() {
+    public function izvodjaci() {
         $config = array();
-        $config["base_url"] = base_url() . "/index.php/Moderator/muzika/";
-        $config["total_rows"] = $this->ModelPesma->brojNeodobrenihPesama();
+        $config["base_url"] = base_url() . "/index.php/moderator/izvodjaci/";
+        $config["total_rows"] = $this->ModelAutor->brojAutora(); //broj autora
         $config["per_page"] = $this->ModelPesma->velicinaStranice;
-        $uri_segment = 3;
-        $config["uri_segment"] = $uri_segment;
+        $config["uri_segment"] = 3;
         $this->postaviConfigZaPaginaciju($config);
         $this->pagination->initialize($config);
 
-        $pocetniRedniBr = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
+        $pocetniRedniBr = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
         $data = array();
-        $data["numere"] = $this->ModelPesma->dohvatiNeodobrenePesme($this->ModelPesma->velicinaStranice, $pocetniRedniBr);
+        $data["autori"] = $this->ModelAutor->dohvatiAutore($this->ModelPesma->velicinaStranice, $pocetniRedniBr);
         $data["links"] = $this->pagination->create_links();
         $data["controller"] = "moderator";
-        $data["pocetniRedniBr"] = $pocetniRedniBr;
-        $this->prikazi("list.php", $data);
+        $data["pocetniRedniBr"] = $pocetniRedniBr + 1;
+        $this->prikazi("izvodjaci.php", $data);
     }
 
-    public function komentari() {
+    public function muzika($idZanr = 0, $idAutor = 0) {
         $config = array();
-        $config["base_url"] = base_url() . "/index.php/Moderator/komentari/";
-        $config["total_rows"] = $this->ModelKomentar->brojNeodobrenihKomentara();
-        $config["per_page"] = $this->ModelKomentar->velicinaStranice;
-        $uri_segment = 3;
-        $config["uri_segment"] = $uri_segment;
+        $config["base_url"] = base_url() . "/index.php/moderator/muzika/" . $idZanr . "/" . $idAutor . "/";
+        $config["total_rows"] = $this->ModelPesma->brojPesama($idZanr, $idAutor);
+        $config["per_page"] = $this->ModelPesma->velicinaStranice;
+        $config["uri_segment"] = 5;
         $this->postaviConfigZaPaginaciju($config);
         $this->pagination->initialize($config);
 
-        $pocetniRedniBr = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
+        $pocetniRedniBr = ($this->uri->segment(5)) ? $this->uri->segment(5) : 0;
 
         $data = array();
-        $data["komentari"] = $this->ModelKomentar->dohvatiNeodobreneKomentare($this->ModelPesma->velicinaStranice, $pocetniRedniBr);
+        $data["numere"] = $this->ModelPesma->dohvatiPesme($this->ModelPesma->velicinaStranice, $pocetniRedniBr, $idZanr, $idAutor);
         $data["links"] = $this->pagination->create_links();
         $data["controller"] = "moderator";
-        $data["pocetniRedniBr"] = $pocetniRedniBr;
-        $this->prikazi("comment_list.php", $data);
+        $data["pocetniRedniBr"] = $pocetniRedniBr + 1;
+        $this->prikazi("list.php", $data);
     }
 
     public function pesma($id) {
@@ -130,6 +162,93 @@ class Moderator extends CI_Controller {
     public function obrisiPesmu($id) {
         $this->ModelPesma->obrisiPesmu($id);
         redirect("moderator/odobravanjeAkorda");
+    }
+
+    public function dodajAkordePrikaz() {
+        $args = array();
+        $args["controller"] = "moderator";
+        $this->prikazi("dodaj_akorde.php", $args);
+    }
+
+    private function dohvatiAutorIdIliDodaj($autor) {
+        $id = $this->ModelAutor->dohvatiId($autor);
+        if ($id != null) {
+            return $id;
+        }
+        $this->db->set("naziv", $autor)->insert("autor");
+        $id = $this->ModelAutor->dohvatiId($autor);
+        return $id;
+    }
+
+    public function dodajAkorde() {
+        $korisnikId = $this->session->userdata('korisnik')->id;
+
+        $autor = $this->input->post("author");
+        $nazivPesme = $this->input->post("songName");
+        $ytLink = $this->input->post("ytLink");
+        $textPesme = $this->input->post("song");
+        $zanrId = $this->input->post("zanrId");
+        $autorId = $this->dohvatiAutorIdIliDodaj($autor);
+
+        $this->ModelPesma->dodajPesmu($nazivPesme, $textPesme, $ytLink, $zanrId, $autorId, $korisnikId);
+        redirect("Moderator");
+    }
+
+    public function mojiAkordiPrikaz() {
+        $korisnikId = $this->session->userdata('korisnik')->id;
+
+        $config = array();
+        $config["base_url"] = base_url() . "/index.php/moderator/mojiAkordiPrikaz/";
+        $config["total_rows"] = $this->ModelPesma->brojPesamaZaKorisnika($korisnikId);
+        $config["per_page"] = $this->ModelPesma->velicinaStranice;
+        $config["uri_segment"] = 3;
+        $this->postaviConfigZaPaginaciju($config);
+        $this->pagination->initialize($config);
+
+        $pocetniRedniBr = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+        $data = array();
+        $data["numere"] = $this->ModelPesma->
+                dohvatiPesmeZaKorisnika($this->ModelPesma->velicinaStranice, $pocetniRedniBr, $korisnikId);
+        $data["links"] = $this->pagination->create_links();
+        $data["controller"] = "moderator";
+        $data["pocetniRedniBr"] = $pocetniRedniBr + 1;
+        $this->prikazi("listZaKorisnika.php", $data);
+    }
+
+    public function pesmaZaKorisnika($idPesme) {
+        $pesma = $this->ModelPesma->dohvatiPesmu($idPesme, FALSE);
+
+        $args = array();
+        $args["autor"] = $this->ModelAutor->dohvatiImeAutora($pesma->idAutor);
+        $args["idPesme"] = $idPesme;
+        $args["nazivPesme"] = $pesma->naziv;
+        $args["ytLink"] = $pesma->ytLink;
+        $args["zanrId"] = $pesma->idZanr;
+        $args["textPesme"] = $pesma->putanjaDoAkorda;
+        $args["controller"] = "moderator";
+        $this->prikazi("izmeni_akorde.php", $args);
+    }
+
+    public function izmeniAkorde() {
+        $idPesme = $this->input->post("idPesme");
+        $autor = $this->input->post("author");
+        $nazivPesme = $this->input->post("songName");
+        $ytLink = $this->input->post("ytLink");
+        $textPesme = $this->input->post("song");
+        $zanrId = $this->input->post("zanrId");
+        $autorId = $this->dohvatiAutorIdIliDodaj($autor);
+
+        $this->ModelPesma->promeniPesmu($idPesme, $nazivPesme, $textPesme, $ytLink, $zanrId, $autorId);
+        redirect("Moderator");
+    }
+
+    public function ostaviKomentar() {
+        $text = $this->input->post("komentarTekst");
+        $idPes = $this->input->post("idPesme");
+        $idKor = $this->session->userdata("korisnik")->id;
+        $this->ModelKomentar->dodajKomentar($text, $idPes, $idKor);
+        redirect("moderator/pesma/" . $idPes);
     }
 
 }
