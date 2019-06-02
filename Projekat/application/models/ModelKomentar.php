@@ -12,6 +12,8 @@
  * @author David
  */
 class ModelKomentar extends CI_Model {
+    
+    public $velicinaStranice = 3;
 
     public function __construct() {
         parent::__construct();
@@ -24,7 +26,21 @@ class ModelKomentar extends CI_Model {
         $this->db->set("idKor", $idKorisnika);
         $this->db->insert("komentar");
     }
-    
+
+    public function brojNeodobrenihKomentara() {
+        $this->db->where("stanje", "neodobren");
+        return $this->db->count_all_results("komentar");
+    }
+
+    public function dohvatiNeodobreneKomentare($limit, $start) {
+        $this->db->from("komentar");
+        $this->db->where("stanje", "neodobren");
+        $this->db->join("korisnik", "komentar.idKor = korisnik.id", "left");
+        $this->db->select("komentar.*, korisnik.username as 'username'");
+        $this->db->limit($limit, $start);
+        return $this->db->get()->result();
+    }
+
     public function dohvatiKomentareZaPesmu($idPesme) {
         $this->db->where("idPes", $idPesme);
         $this->db->from("komentar");
@@ -33,16 +49,17 @@ class ModelKomentar extends CI_Model {
         $result = $this->db->get()->result();
         return $result;
     }
-    
+
     public function ukloniKomentar($id) {
         $this->db->where("id", $id);
         $this->db->delete("komentar");
     }
-    
+
     public function promeniKomentar($id, $text) {
         // mozda dodati da se apdejtuje i vreme komentara?
         $this->db->set("text", $text);
         $this->db->where("id", $id);
         $this->db->update("komentar");
     }
+
 }

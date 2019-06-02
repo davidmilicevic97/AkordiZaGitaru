@@ -15,8 +15,6 @@
 
                         <div class ="row">
                             <div class ="col-xl-8 text-justify">
-                                <!--<p>Mi smo trojica studenata Elektrotehničkog fakulteta koji ovaj sajt rade kao projekat iz predmeta Principi Softverskog Inženjerstva na trećoj godini studija.</p>
-                                <p class="mb-0">D Bit tim čine : Ratko Amanović, David Milićević i Andrija Veljković. :')</p>-->
                                 <?php
                                 echo $pesma->putanjaDoAkorda;
                                 ?> 
@@ -34,10 +32,22 @@
                                     <script type="text/javascript" src="<?php echo base_url(); ?>assets/vendor/timer.js"></script>
                                     <center>
                                         <table>
+                                            <?php
+                                            if ($this->session->userdata('korisnik')->tip == 'moderator') {
+                                                echo "<tr>
+                                                        <td>
+                                                            <a class='btn btn-primary' href=" . site_url("$controller/odobriPesmu/") . $pesma->id . ">Odobri</a>
+                                                        </td>
+                                                        <td>
+                                                            <a class='btn btn-primary' href=" . site_url("$controller/obrisiPesmu/") . $pesma->id . ">Obriši</a>
+                                                        </td>
+                                                     </tr>";
+                                            }
+                                            ?>
                                             <tr>
                                                 <td colspan="2" align = "center">
-                                                    <strong>Metronom</strong>
-                                                </td>
+                                                    <strong>Metronom</strong> 
+                                               </td>
                                             </tr>
                                             <tr>
                                                 <td>
