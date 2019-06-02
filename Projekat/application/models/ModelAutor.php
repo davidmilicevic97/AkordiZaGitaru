@@ -38,11 +38,19 @@ class ModelAutor extends CI_Model {
         return $row->naziv;
     }
     
-    public function brojAutora() {
-        return $this->db->count_all('autor');
+    public function brojAutora($imePocinjeSlovom = NULL) {
+        if ($imePocinjeSlovom != NULL && $imePocinjeSlovom != "0") {
+            $this->db->like("naziv", strtoupper($imePocinjeSlovom), "after");
+            $this->db->or_like("naziv", strtolower($imePocinjeSlovom), "after");
+        }
+        return $this->db->count_all_results('autor');
     }
 
-    public function dohvatiAutore($limit, $start) {
+    public function dohvatiAutore($limit, $start, $imePocinjeSlovom = NULL) {
+        if ($imePocinjeSlovom != NULL && $imePocinjeSlovom != "0") {
+            $this->db->like("naziv", strtoupper($imePocinjeSlovom), "after");
+            $this->db->or_like("naziv", strtolower($imePocinjeSlovom), "after");
+        }
         $this->db->limit($limit, $start);
         return $this->db->get("autor")->result();
     }

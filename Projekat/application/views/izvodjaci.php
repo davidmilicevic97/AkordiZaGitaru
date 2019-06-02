@@ -15,6 +15,15 @@
                         <p class="mb-0">D Bit tim čine : Ratko Amanović, David Milićević i Andrija Veljković. :')</p>-->
                         <div class ="row">
                             <div class="col-xl-9 ">
+                                <?php
+                                    echo "<ul class='pagination'>";
+                                    foreach (array("A", "B", "C", "Č", "Ć", "D", "Dž", "Đ", "E",
+                                        "F", "G", "H", "I", "J", "K", "L", "Lj", "M", "N", "Nj", "O",
+                                        "P", "R", "S", "Š", "T", "U", "V", "Z", "Ž", "Q", "W", "X", "Y") as $pocetnoSlovo) {
+                                        echo "<li class='page-link'><a href=". site_url("$controller/izvodjaci/$pocetnoSlovo") .">$pocetnoSlovo</a></li> ";
+                                    }
+                                    echo "</ul>";
+                                ?>
                                 <table class ="table table-striped table-hover">
                                     <thead class="thead-light">
                                         <tr>
