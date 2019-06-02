@@ -21,7 +21,7 @@ class ModelKomentar extends CI_Model {
 
     public function dodajKomentar($text, $idPesme, $idKorisnika) {
         $this->db->set("text", $text);
-        $this->db->set("vreme", mdate("%Y-%m-%d %H:%i:%S"));
+        $this->db->set("vreme", mdate("%Y-%m-%d %H:%i:%s"));
         $this->db->set("stanje", "neodobren");
         $this->db->set("idPes", $idPesme);
         $this->db->set("idKor", $idKorisnika);
@@ -38,6 +38,7 @@ class ModelKomentar extends CI_Model {
         $this->db->where("stanje", "neodobren");
         $this->db->join("korisnik", "komentar.idKor = korisnik.id", "left");
         $this->db->select("komentar.*, korisnik.username as 'username'");
+        $this->db->order_by("komentar.id", "DESC");
         $this->db->limit($limit, $start);
         return $this->db->get()->result();
     }
@@ -47,6 +48,7 @@ class ModelKomentar extends CI_Model {
         $this->db->from("komentar");
         $this->db->join("korisnik", "komentar.idKor = korisnik.id", "left");
         $this->db->select("komentar.*, korisnik.username as 'username'");
+        $this->db->order_by("komentar.id", "DESC");
         $result = $this->db->get()->result();
         return $result;
     }
@@ -63,4 +65,14 @@ class ModelKomentar extends CI_Model {
         $this->db->update("komentar");
     }
 
+    public function odobriKomentar($id) {
+        $this->db->set("stanje", "odobren");
+        $this->db->where("id", $id);
+        $this->db->update("komentar");
+    }
+    
+    public function obrisiKomentar($id) {
+        $this->db->where("id", $id);
+        $this->db->delete("komentar");
+    }
 }

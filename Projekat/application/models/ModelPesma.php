@@ -13,7 +13,7 @@
  */
 class ModelPesma extends CI_Model {
 
-    public $velicinaStranice = 10;
+    public $velicinaStranice = 3;
     
     public function __construct() {
         parent::__construct();
@@ -75,6 +75,7 @@ class ModelPesma extends CI_Model {
         $this->db->from("pesma");
         $this->db->join("autor", "autor.id = pesma.idAutor", 'left');
         $this->db->select("pesma.*, autor.naziv as 'autor'");
+        $this->db->order_by("pesma.id", "DESC");
         $this->db->limit($limit, $start);
         return $this->db->get()->result();
     }
@@ -84,6 +85,7 @@ class ModelPesma extends CI_Model {
         $this->db->from("pesma");
         $this->db->join("autor", "autor.id = pesma.idAutor", 'left');
         $this->db->select("pesma.*, autor.naziv as 'autor'");
+        $this->db->order_by("pesma.id", "DESC");
         $this->db->limit($limit, $start);
         return $this->db->get()->result();
     }
@@ -93,6 +95,7 @@ class ModelPesma extends CI_Model {
         $this->db->where("stanje", "neodobrena");
         $this->db->join("autor", "autor.id = pesma.idAutor", 'left');
         $this->db->select("pesma.*, autor.naziv as 'autor'");
+        $this->db->order_by("pesma.id", "DESC");
         $this->db->limit($limit, $start);
         return $this->db->get()->result();
     }
