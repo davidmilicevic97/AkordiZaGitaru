@@ -15,6 +15,7 @@ class ModelKorisnik extends CI_Model {
 
     public $korisnik;
     public $velicinaStranice = 3;
+    
     public function __construct() {
         parent::__construct();
         $this->korisnik = NULL;
@@ -46,22 +47,24 @@ class ModelKorisnik extends CI_Model {
         }
     }
     
-    public function dohvatiKorisnike($limit=NULL, $start=NULL,$tip = NULL,$like = NULL) {
+    public function dohvatiKorisnike($limit, $start,$tip = NULL,$like = NULL) {
         if ($tip != NULL) {
             $this->db->where("tip", $tip);
         }
-        if ($limit!= NULL && $start !=NULL){
-        $this->db->limit($limit, $start);
-        }
+        
         if ($like != NULL){
             $this->db->like("username",$like);
         }
+        $this->db->limit($limit, $start);
         return $this->db->get("korisnik")->result();
     }
     
-    public function brojKorisnika($tip = NULL) {
+    public function brojKorisnika($tip = NULL,$like = NULL) {
         if ($tip != NULL) {
             $this->db->where("tip", $tip);
+        }
+        if ($like != NULL){
+            $this->db->like("username",$like);
         }
         return $this->db->count_all_results("korisnik");
     }

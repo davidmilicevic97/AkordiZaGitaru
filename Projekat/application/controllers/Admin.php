@@ -32,16 +32,17 @@ class Admin extends CI_Controller {
     public function odobravanjeModeratora() {
         $config = array();
         $config["base_url"] = base_url() . "/index.php/Admin/odobravanjeModeratora";
-        $config["total_rows"] = $this->ModelKorisnik->brojKorisnika("korisnik");
+        $config["total_rows"] = $this->ModelKorisnik->brojKorisnika("korisnik", $this->input->post("searchVal"));
         $config["per_page"] = $this->ModelKorisnik->velicinaStranice;
-        $config["uri_segment"] = 3;
+        $uri_segment = 3;
+        $config["uri_segment"] = $uri_segment;
         $this->postaviConfigZaPaginaciju($config);
         $this->pagination->initialize($config);
 
-        $pocetniRedniBr = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $pocetniRedniBr = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
 
         $data = array();
-        $data["korisnici"] = $this->ModelKorisnik->dohvatiKorisnike($this->ModelKorisnik->velicinaStranice, $pocetniRedniBr, "korisnik", $this->input->post("searchVal"));
+        $data["korisnici"] = $this->ModelKorisnik->dohvatiKorisnike(/* $this->ModelKorisnik->velicinaStranice */3, $pocetniRedniBr, "korisnik", $this->input->post("searchVal"));
 
         $data["links"] = $this->pagination->create_links();
         $data["controller"] = "Admin";
@@ -49,29 +50,43 @@ class Admin extends CI_Controller {
         $this->prikazi("odobravanje_moderatora.php", $data);
     }
 
+        private function postaviConfigZaPaginaciju(&$config) {
+        $config["full_tag_open"] = "<ul class='pagination'>";
+        $config["full_tag_close"] = "</ul>";
+        $config["first_link"] = "<li class='page-link'>Prva</li>";
+        $config["last_link"] = "<li class='page-link'>Poslednja</li>";
+        $config["next_link"] = "<li class='page-link'>Sledeća</li>";
+        $config["prev_link"] = "<li class='page-link'>Prethodna</li>";
+        $config["cur_tag_open"] = "<li class='page-link'><a href='#'><strong>";
+        $config["cur_tag_close"] = "</strong></a></li>";
+        $config["num_tag_open"] = "<li class='page-link'>";
+        $config["num_tag_close"] = "</li>";
+    }
+    
     public function uklanjanjeModeratora() {
         $config = array();
-        $config["base_url"] = base_url() . "/index.php/Admin/uklanjanjeModeratora";
-        $config["total_rows"] = $this->ModelKorisnik->brojKorisnika("Moderator");
+        $config["base_url"] = base_url() . "/index.php/Admin/uklanjanjeModeratora/";
+        $config["total_rows"] = $this->ModelKorisnik->brojKorisnika('moderator', $this->input->post("searchVal"));
         $config["per_page"] = $this->ModelKorisnik->velicinaStranice;
-        $config["uri_segment"] = 3;
+        $uri_segment = 3;
+        $config["uri_segment"] = $uri_segment;
         $this->postaviConfigZaPaginaciju($config);
         $this->pagination->initialize($config);
 
-        $pocetniRedniBr = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $pocetniRedniBr = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
 
         $data = array();
-        $data["korisnici"] = $this->ModelKorisnik->dohvatiKorisnike($this->ModelKorisnik->velicinaStranice, $pocetniRedniBr, "moderator", $this->input->post("searchVal"));
-
+        $data["korisnici"] = $this->ModelKorisnik->dohvatiKorisnike($this->ModelKorisnik->velicinaStranice, $pocetniRedniBr, 'moderator', $this->input->post("searchVal"));
         $data["links"] = $this->pagination->create_links();
         $data["controller"] = "Admin";
         $data["pocetniRedniBr"] = $pocetniRedniBr;
-        $this->prikazi("uklanjanje_admina.php", $data);
+        $this->prikazi("uklanjanje_moderatora.php", $data);
     }
+
     public function odobravanjeAdmina() {
         $config = array();
         $config["base_url"] = base_url() . "/index.php/Admin/odobravanjeAdmina";
-        $config["total_rows"] = $this->ModelKorisnik->brojKorisnika("Moderator");
+        $config["total_rows"] = $this->ModelKorisnik->brojKorisnika("moderator", $this->input->post("searchVal"));
         $config["per_page"] = $this->ModelKorisnik->velicinaStranice;
         $config["uri_segment"] = 3;
         $this->postaviConfigZaPaginaciju($config);
@@ -87,10 +102,11 @@ class Admin extends CI_Controller {
         $data["pocetniRedniBr"] = $pocetniRedniBr;
         $this->prikazi("odobravanje_admina.php", $data);
     }
+
     public function uklanjanjeKorisnika() {
         $config = array();
         $config["base_url"] = base_url() . "/index.php/Admin/uklanjanjeModeratora";
-        $config["total_rows"] = $this->ModelKorisnik->brojKorisnika("korisnik");
+        $config["total_rows"] = $this->ModelKorisnik->brojKorisnika("korisnik", $this->input->post("searchVal"));
         $config["per_page"] = $this->ModelKorisnik->velicinaStranice;
         $config["uri_segment"] = 3;
         $this->postaviConfigZaPaginaciju($config);
@@ -100,12 +116,12 @@ class Admin extends CI_Controller {
 
         $data = array();
         $data["korisnici"] = $this->ModelKorisnik->dohvatiKorisnike($this->ModelKorisnik->velicinaStranice, $pocetniRedniBr, "korisnik", $this->input->post("searchVal"));
-
         $data["links"] = $this->pagination->create_links();
         $data["controller"] = "Admin";
         $data["pocetniRedniBr"] = $pocetniRedniBr;
         $this->prikazi("uklanjanje_korisnika.php", $data);
     }
+
     public function dodavanjeAdmina($id) {
         $this->ModelKorisnik->promeniTip($id, "admin");
         redirect('Admin/odobravanjeAdmina');
@@ -120,22 +136,12 @@ class Admin extends CI_Controller {
         $this->ModelKorisnik->promeniTip($id, "korisnik");
         redirect('Admin/uklanjanjeModeratora');
     }
+
     public function ukloniKorisnika($id) {
         $this->ModelKorisnik->ukloniKorisnika($id);
         redirect('Admin/uklanjanjeKorisnika');
     }
 
-    private function postaviConfigZaPaginaciju(&$config) {
-        $config["full_tag_open"] = "<ul class='pagination'>";
-        $config["full_tag_close"] = "</ul>";
-        $config["first_link"] = "<li class='page-link'>Prva</li>";
-        $config["last_link"] = "<li class='page-link'>Poslednja</li>";
-        $config["next_link"] = "<li class='page-link'>Sledeća</li>";
-        $config["prev_link"] = "<li class='page-link'>Prethodna</li>";
-        $config["cur_tag_open"] = "<li class='page-link'><a href='#'><strong>";
-        $config["cur_tag_close"] = "</strong></a></li>";
-        $config["num_tag_open"] = "<li class='page-link'>";
-        $config["num_tag_close"] = "</li>";
-    }
+
 
 }

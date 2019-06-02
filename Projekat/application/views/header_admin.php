@@ -56,7 +56,7 @@
                             <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Admin/odobravanjeModeratora"); ?>">Postavljanje moderatora</a>
                         </li>
                          <li class="nav-item px-lg-4">   
-                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Admin/uklananjeModeratora"); ?>">Uklanjanje moderatora</a>
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Admin/uklanjanjeModeratora"); ?>">Uklanjanje moderatora</a>
                         </li>
                         <li class="nav-item px-lg-4">   
                             <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Admin/odobravanjeAdmina"); ?>">Postavljanje admina</a>
