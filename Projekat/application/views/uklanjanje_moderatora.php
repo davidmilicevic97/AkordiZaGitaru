@@ -23,7 +23,7 @@
                                     if (isset($korisnici)) {
                                         foreach ($korisnici as $korisnik) {
                                             echo "<tr><td scope = 'col'>" . $korisnik->username . "</td>"
-                                            . "<td scope = 'col'><form name='searchform' action='" . site_url("Admin/dodavanjeModeratora") . "/" . $korisnik->id . "' method='post'>
+                                            . "<td scope = 'col'><form name='searchform' action='" . site_url("Admin/ukloniModeratora") . "/" . $korisnik->id . "' method='post'>
                                            <button type='submit' class='btn btn-primary float-right'/>Potvrdi</button></form></td>
                                          </tr>";
                                         }
@@ -33,7 +33,7 @@
                             </div>
                             <div class ="col-xl-3 mx-auto">
                                 <strong>Pretraga korisnika:</strong>
-                                <form name="loginform" action="<?php echo site_url('Admin/odobravanjeModeratora') ?>" method="post"> <!-- umesto Gost ide admin-->
+                                <form name="loginform" action="<?php echo site_url('Admin/uklanjanjeModeratora') ?>" method="post"> <!-- umesto Gost ide admin-->
                                     <table>
                                         <tr>
                                             <td>

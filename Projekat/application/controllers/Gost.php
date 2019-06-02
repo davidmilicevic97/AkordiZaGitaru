@@ -15,7 +15,6 @@ class Gost extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-
         $this->load->model("ModelKorisnik");
         $this->load->model("ModelPesma");
         $this->load->model("ModelKomentar");
@@ -28,7 +27,7 @@ class Gost extends CI_Controller {
     }
 
     public function prikazi($glavniDeo, $data = null) {
-        $data['zanrModel'] = $this->ModelZanr;
+        $data['zanrModel'] = ModelZanr;
         $data['autorModel'] = $this->ModelAutor;
         $this->load->view("header.php", $data);
         $this->load->view($glavniDeo, $data);

@@ -52,17 +52,17 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav mx-auto">
-                        <li class="nav-item active px-lg-4">
-                            <a class="nav-link text-uppercase text-expanded" href="index.html">Početna
-                                <span class="sr-only">(current)</span>
-                            </a>
+                        <li class="nav-item px-lg-4">   
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Admin/odobravanjeModeratora"); ?>">Postavljanje moderatora</a>
                         </li>
-
-                        <li class="nav-item px-lg-4">
-                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Gost/onama"); ?>">O Nama</a>
+                         <li class="nav-item px-lg-4">   
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Admin/uklananjeModeratora"); ?>">Uklanjanje moderatora</a>
                         </li>
                         <li class="nav-item px-lg-4">   
-                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Gost/odobravanjeModeratora"); ?>">Postavljanje moderatora</a>
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Admin/odobravanjeAdmina"); ?>">Postavljanje admina</a>
+                        </li>
+                         <li class="nav-item px-lg-4">   
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Admin/uklanjanjeKorisnika"); ?>">Uklanjanje korisnika</a>
                         </li>
                         <li class="nav-item px-lg-4">
                             <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Gost/statistika"); ?>">Podešavanja sajta</a>
