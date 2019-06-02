@@ -19,11 +19,6 @@
                                             <th scope = 'col'>#</th>
                                             <th scope = 'col'>Autor</th>
                                             <th scope = 'col'>Delo</th>
-                                            <?php
-                                            if ($this->session->userdata('korisnik')->tip == 'moderator') {
-                                                echo "<th scope = 'col'></th>";
-                                            }
-                                            ?>
                                         </tr>
                                     </thead>
                                     <?php
@@ -34,9 +29,6 @@
                                             . "<td scope = 'col'>" . $redniBr++ . "</td>"
                                             . "<td scope = 'col'>" . $numera->autor . "</td>"
                                             . "<td scope = 'col'><a href =" . site_url("$controller/pesma/") . $numera->id . ">" . $numera->naziv . "</a></td>";
-                                            if ($this->session->userdata('korisnik')->tip == 'moderator') {
-                                                echo "<td scope = 'col'><a class='btn btn-primary' href=" . site_url("$controller/pesma/") . $numera->id . ">Pregledaj</a></td>";
-                                            }
                                             echo "</tr>";
                                         }
                                     }

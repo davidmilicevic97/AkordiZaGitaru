@@ -31,9 +31,13 @@ class Moderator extends CI_Controller {
         $this->muzika();
     }
 
-//    public function odobravanjeKomentara() {
-//        $this->
-//s    }
+    public function odobravanjeKomentara() {
+        $this->komentari();
+    }
+    
+    public function brisanjeAkorda(){
+        
+    }
 
     public function prikazi($glavniDeo, $data = null) {
         $data['zanrModel'] = $this->ModelZanr;

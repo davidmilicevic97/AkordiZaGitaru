@@ -33,21 +33,25 @@
                                     <center>
                                         <table>
                                             <?php
-                                            if ($this->session->userdata('korisnik')->tip == 'moderator') {
-                                                echo "<tr>
-                                                        <td>
+                                            if ($this->session->userdata('korisnik') != null) {
+                                                if ($this->session->userdata('korisnik')->tip == 'moderator') {
+                                                    echo "<tr>";
+                                                    if ($pesma->stanje == 'neodobrena') {
+                                                        echo " <td>
                                                             <a class='btn btn-primary' href=" . site_url("$controller/odobriPesmu/") . $pesma->id . ">Odobri</a>
-                                                        </td>
-                                                        <td>
+                                                          </td>";
+                                                    }
+                                                    echo "<td>
                                                             <a class='btn btn-primary' href=" . site_url("$controller/obrisiPesmu/") . $pesma->id . ">Obriši</a>
                                                         </td>
                                                      </tr>";
+                                                }
                                             }
                                             ?>
                                             <tr>
                                                 <td colspan="2" align = "center">
                                                     <strong>Metronom</strong> 
-                                               </td>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>

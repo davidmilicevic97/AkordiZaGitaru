@@ -109,6 +109,7 @@ class Gost extends CI_Controller {
     public function pesma($id) {
         $args = array();
         $args["pesma"] = $this->ModelPesma->dohvatiPesmu($id, TRUE);
+        $args["controller"] = "Gost";
         $args["komentari"] = $this->ModelKomentar->dohvatiKomentareZaPesmu($id);
         $this->prikazi("pesma.php", $args);
     }
