@@ -45,12 +45,16 @@ class ModelPesma extends CI_Model {
         return $this->db->get()->row();
     }
 
-    public function brojPesama($idZanr=NULL, $idAutor=NULL){
+    public function brojPesama($idZanr=NULL, $idAutor=NULL, $pesmaPocinjeSlovom = NULL){
         if ($idZanr != NULL && $idZanr != 0) {
             $this->db->where("idZanr", $idZanr);
         }
         if ($idAutor != NULL && $idAutor != 0) {
             $this->db->where("idAutor", $idAutor);
+        }
+        if ($pesmaPocinjeSlovom != NULL && $pesmaPocinjeSlovom != "0") {
+            $this->db->like("naziv", strtoupper($pesmaPocinjeSlovom), "after");
+            $this->db->or_like("naziv", strtolower($pesmaPocinjeSlovom), "after");
         }
         return $this->db->count_all_results("pesma");
     }
@@ -65,7 +69,7 @@ class ModelPesma extends CI_Model {
         return $this->db->count_all_results("pesma");
     }
     
-    public function dohvatiPesme($limit, $start, $idZanr = NULL, $idAutor = NULL) {
+    public function dohvatiPesme($limit, $start, $idZanr = NULL, $idAutor = NULL, $pesmaPocinjeSlovom = NULL) {
         if ($idZanr != NULL && $idZanr != 0) {
             $this->db->where("idZanr", $idZanr);
         }
@@ -73,6 +77,10 @@ class ModelPesma extends CI_Model {
             $this->db->where("idAutor", $idAutor);
         }
         $this->db->from("pesma");
+        if ($pesmaPocinjeSlovom != NULL && $pesmaPocinjeSlovom != "0") {
+            $this->db->where("(pesma.naziv LIKE '" . strtoupper($pesmaPocinjeSlovom) . "%' OR " .
+                    "pesma.naziv LIKE '" . strtolower($pesmaPocinjeSlovom) . "%')");
+        }
         $this->db->join("autor", "autor.id = pesma.idAutor", 'left');
         $this->db->select("pesma.*, autor.naziv as 'autor'");
         $this->db->order_by("pesma.id", "DESC");

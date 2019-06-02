@@ -20,7 +20,7 @@ class Gost extends CI_Controller {
         $this->load->model("ModelKomentar");
         $this->load->model("ModelZanr");
         $this->load->model("ModelAutor");
-        
+
         // redirekcija u zavisnosti od korisnika koji je ulogovan
         $korisnik = $this->session->userdata('korisnik');
         if ($korisnik != NULL) {
@@ -89,38 +89,39 @@ class Gost extends CI_Controller {
         $config["num_tag_close"] = "</li>";
     }
 
-    public function muzika($idZanr = 0, $idAutor = 0) {
+    public function muzika($idZanr = 0, $idAutor = 0, $pesmaPocinjeSlovom = 0) {
         $config = array();
-        $config["base_url"] = base_url() . "/index.php/Gost/muzika/" . $idZanr . "/" . $idAutor . "/";
-        $config["total_rows"] = $this->ModelPesma->brojPesama($idZanr, $idAutor);
+        $config["base_url"] = base_url() . "/index.php/Gost/muzika/" . $idZanr . "/" . $idAutor . "/" . $pesmaPocinjeSlovom . "/";
+        $config["total_rows"] = $this->ModelPesma->brojPesama($idZanr, $idAutor, $pesmaPocinjeSlovom);
         $config["per_page"] = $this->ModelPesma->velicinaStranice;
-        $config["uri_segment"] = 5;
+        $config["uri_segment"] = 6;
         $this->postaviConfigZaPaginaciju($config);
         $this->pagination->initialize($config);
 
-        $pocetniRedniBr = ($this->uri->segment(5)) ? $this->uri->segment(5) : 0;
+        $pocetniRedniBr = ($this->uri->segment(6)) ? $this->uri->segment(6) : 0;
 
         $data = array();
-        $data["numere"] = $this->ModelPesma->dohvatiPesme($this->ModelPesma->velicinaStranice, $pocetniRedniBr, $idZanr, $idAutor);
+        $data["idZanr"] = $idZanr;
+        $data["numere"] = $this->ModelPesma->dohvatiPesme($this->ModelPesma->velicinaStranice, $pocetniRedniBr, $idZanr, $idAutor, $pesmaPocinjeSlovom);
         $data["links"] = $this->pagination->create_links();
         $data["controller"] = "gost";
         $data["pocetniRedniBr"] = $pocetniRedniBr + 1;
         $this->prikazi("list.php", $data);
     }
 
-    public function izvodjaci() {
+    public function izvodjaci($imePocinjeSlovom = 0) {
         $config = array();
-        $config["base_url"] = base_url() . "/index.php/Gost/izvodjaci/";
-        $config["total_rows"] = $this->ModelAutor->brojAutora(); //broj autora
+        $config["base_url"] = base_url() . "/index.php/gost/izvodjaci/" . $imePocinjeSlovom . "/";
+        $config["total_rows"] = $this->ModelAutor->brojAutora($imePocinjeSlovom); //broj autora
         $config["per_page"] = $this->ModelPesma->velicinaStranice;
-        $config["uri_segment"] = 3;
+        $config["uri_segment"] = 4;
         $this->postaviConfigZaPaginaciju($config);
         $this->pagination->initialize($config);
 
-        $pocetniRedniBr = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $pocetniRedniBr = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
 
         $data = array();
-        $data["autori"] = $this->ModelAutor->dohvatiAutore($this->ModelPesma->velicinaStranice, $pocetniRedniBr);
+        $data["autori"] = $this->ModelAutor->dohvatiAutore($this->ModelPesma->velicinaStranice, $pocetniRedniBr, $imePocinjeSlovom);
         $data["links"] = $this->pagination->create_links();
         $data["controller"] = "gost";
         $data["pocetniRedniBr"] = $pocetniRedniBr + 1;
@@ -172,12 +173,15 @@ class Gost extends CI_Controller {
     public function registrujse() {
         $this->form_validation->set_rules("username", "Korisničko ime", "required|min_length[8]|max_length[20]");
         $this->form_validation->set_rules("password", "Lozinka", "required|min_length[8]|max_length[20]");
+        $this->form_validation->set_rules("confirmPassword", "Potvrda lozinke", "required|min_length[8]|max_length[20]");
         $this->form_validation->set_message("required", "Polje {field} je ostalo prazno!");
         $this->form_validation->set_message("min_length", "Polje {field} mora imati najmanje 8 karaktera!");
         $this->form_validation->set_message("max_length", "Polje {field} ne sme imati više od 20 karaktera!");
         if ($this->form_validation->run()) {
             if ($this->ModelKorisnik->dohvatiKorisnika($this->input->post("username"))) {
                 $this->registracija("Korisničko ime već postoji!");
+            } elseif ($this->input->post("password") != $this->input->post("confirmPassword")) {
+                $this->registracija("Unete lozike se ne poklapaju!");
             } else {
                 $username = $this->input->post("username");
                 $password = $this->input->post("password");

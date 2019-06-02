@@ -59,6 +59,7 @@ class Moderator extends CI_Controller {
         $pocetniRedniBr = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
 
         $data = array();
+        $data["odobravanje"] = 1;
         $data["numere"] = $this->ModelPesma->dohvatiNeodobrenePesme($this->ModelPesma->velicinaStranice, $pocetniRedniBr);
         $data["links"] = $this->pagination->create_links();
         $data["controller"] = "moderator";
@@ -117,38 +118,40 @@ class Moderator extends CI_Controller {
         $config["num_tag_close"] = "</li>";
     }
 
-    public function izvodjaci() {
+    public function izvodjaci($imePocinjeSlovom = 0) {
         $config = array();
-        $config["base_url"] = base_url() . "/index.php/moderator/izvodjaci/";
-        $config["total_rows"] = $this->ModelAutor->brojAutora(); //broj autora
+        $config["base_url"] = base_url() . "/index.php/moderator/izvodjaci/" . $imePocinjeSlovom . "/";
+        $config["total_rows"] = $this->ModelAutor->brojAutora($imePocinjeSlovom); //broj autora
         $config["per_page"] = $this->ModelPesma->velicinaStranice;
-        $config["uri_segment"] = 3;
+        $config["uri_segment"] = 4;
         $this->postaviConfigZaPaginaciju($config);
         $this->pagination->initialize($config);
 
-        $pocetniRedniBr = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $pocetniRedniBr = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
 
         $data = array();
-        $data["autori"] = $this->ModelAutor->dohvatiAutore($this->ModelPesma->velicinaStranice, $pocetniRedniBr);
+        $data["autori"] = $this->ModelAutor->dohvatiAutore($this->ModelPesma->velicinaStranice, $pocetniRedniBr, $imePocinjeSlovom);
         $data["links"] = $this->pagination->create_links();
         $data["controller"] = "moderator";
         $data["pocetniRedniBr"] = $pocetniRedniBr + 1;
         $this->prikazi("izvodjaci.php", $data);
     }
 
-    public function muzika($idZanr = 0, $idAutor = 0) {
+    public function muzika($idZanr = 0, $idAutor = 0, $pesmaPocinjeSlovom = 0) {
         $config = array();
-        $config["base_url"] = base_url() . "/index.php/moderator/muzika/" . $idZanr . "/" . $idAutor . "/";
-        $config["total_rows"] = $this->ModelPesma->brojPesama($idZanr, $idAutor);
+        $config["base_url"] = base_url() . "/index.php/Moderator/muzika/" . $idZanr . "/" . $idAutor . "/" . $pesmaPocinjeSlovom . "/";
+        $config["total_rows"] = $this->ModelPesma->brojPesama($idZanr, $idAutor, $pesmaPocinjeSlovom);
         $config["per_page"] = $this->ModelPesma->velicinaStranice;
-        $config["uri_segment"] = 5;
+        $config["uri_segment"] = 6;
         $this->postaviConfigZaPaginaciju($config);
         $this->pagination->initialize($config);
 
-        $pocetniRedniBr = ($this->uri->segment(5)) ? $this->uri->segment(5) : 0;
+        $pocetniRedniBr = ($this->uri->segment(6)) ? $this->uri->segment(6) : 0;
 
         $data = array();
-        $data["numere"] = $this->ModelPesma->dohvatiPesme($this->ModelPesma->velicinaStranice, $pocetniRedniBr, $idZanr, $idAutor);
+        $data["idZanr"] = $idZanr;
+        $data["numere"] = $this->ModelPesma->dohvatiPesme($this->ModelPesma->velicinaStranice,
+                $pocetniRedniBr, $idZanr, $idAutor, $pesmaPocinjeSlovom);
         $data["links"] = $this->pagination->create_links();
         $data["controller"] = "moderator";
         $data["pocetniRedniBr"] = $pocetniRedniBr + 1;
