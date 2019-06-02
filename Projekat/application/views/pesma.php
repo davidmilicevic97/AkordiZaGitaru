@@ -21,13 +21,18 @@
                             </div>
                             <div class ="col-xl-4">
 
-
-                                <div class ="col-xl-12 ml-0 ">
-                                    <center>
-                                        <iframe src= "<?php echo $pesma->ytLink; ?>" ></iframe> <!-- $pesma->link da se ubaci-->
-                                    </center>
-                                </div>
-
+                                <?php
+                                    $ytLinkHeaders = @get_headers($pesma->ytLink);
+                                    if ($ytLinkHeaders && $ytLinkHeaders[0] != "HTTP/1.1 404 Not Found") {
+                                ?>
+                                        <div class ="col-xl-12 ml-0 ">
+                                            <center>
+                                                <iframe src= "<?php echo $pesma->ytLink; ?>" ></iframe> <!-- $pesma->link da se ubaci-->
+                                            </center>
+                                        </div>
+                                <?php
+                                    }
+                                ?>
                                 <div class ="col-xl-12 mt-5 mx-auto">
                                     <script type="text/javascript" src="<?php echo base_url(); ?>assets/vendor/timer.js"></script>
                                     <center>
