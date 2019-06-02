@@ -24,4 +24,7 @@ class ModelZanr extends CI_Model {
         return $row->id;
     }
     
+    public function dohvatiZanrove() {
+        return $this->db->get("zanr")->result();
+    }
 }

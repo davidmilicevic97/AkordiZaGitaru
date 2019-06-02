@@ -17,10 +17,27 @@ class ModelAutor extends CI_Model {
         parent::__construct();
     }
 
+    public function dodajAutora($naziv) {
+        $this->db->set("naziv", $naziv);
+        $this->db->insert("autor");
+    }
+    
     public function dohvatiId($autor) {
-        return $this->db->where("naziv", $autor)->get("autor")->row();
+        $row = $this->db->where("naziv", $autor)->get("autor")->row();
+        if ($row == null) {
+            return null;
+        }
+        return $row->id;
     }
 
+    public function dohvatiImeAutora($id) {
+        $row = $this->db->where("id", $id)->get("autor")->row();
+        if ($row == null) {
+            return null;
+        }
+        return $row->naziv;
+    }
+    
     public function brojAutora() {
         return $this->db->count_all('autor');
     }

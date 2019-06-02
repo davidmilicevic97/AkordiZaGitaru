@@ -13,13 +13,13 @@
  */
 class ModelPesma extends CI_Model {
 
-    public $velicinaStranice = 3;
+    public $velicinaStranice = 10;
     
     public function __construct() {
         parent::__construct();
     }
 
-    public function dodajPesmu($naziv, $putanja, $ytLink, $idZanr, $idAutor) {
+    public function dodajPesmu($naziv, $putanja, $ytLink, $idZanr, $idAutor, $idKor) {
         $this->db->set("naziv", $naziv);
         $this->db->set("stanje", "neodobrena");
         $this->db->set("putanjaDoAkorda", $putanja);
@@ -27,6 +27,7 @@ class ModelPesma extends CI_Model {
         $this->db->set("brPregleda", 0);
         $this->db->set("idZanr", $idZanr);
         $this->db->set("idAutor", $idAutor);
+        $this->db->set("idKor", $idKor);
         $this->db->insert("pesma");
     }
 
@@ -54,6 +55,11 @@ class ModelPesma extends CI_Model {
         return $this->db->count_all_results("pesma");
     }
     
+    public function brojPesamaZaKorisnika($id) {
+        $this->db->where("idKor", $id);
+        return $this->db->count_all_results("pesma");
+    }
+    
     public function dohvatiPesme($limit, $start, $idZanr = NULL, $idAutor = NULL) {
         if ($idZanr != NULL && $idZanr != 0) {
             $this->db->where("idZanr", $idZanr);
@@ -61,6 +67,15 @@ class ModelPesma extends CI_Model {
         if ($idAutor != NULL && $idAutor != 0) {
             $this->db->where("idAutor", $idAutor);
         }
+        $this->db->from("pesma");
+        $this->db->join("autor", "autor.id = pesma.idAutor", 'left');
+        $this->db->select("pesma.*, autor.naziv as 'autor'");
+        $this->db->limit($limit, $start);
+        return $this->db->get()->result();
+    }
+    
+    public function dohvatiPesmeZaKorisnika($limit, $start, $id) {
+        $this->db->where("idKor", $id);
         $this->db->from("pesma");
         $this->db->join("autor", "autor.id = pesma.idAutor", 'left');
         $this->db->select("pesma.*, autor.naziv as 'autor'");
