@@ -53,34 +53,22 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item active px-lg-4">
-                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Gost/index"); ?>">Početna
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Moderator/index"); ?>">Početna
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item px-lg-4 dropdown">
-                            <a class="nav-link text-uppercase text-expanded dropdown-toggle" data-toggle="dropdown"  href="#">Žanrovi</a> 
+                            <a class="nav-link text-uppercase text-expanded dropdown-toggle" data-toggle="dropdown"  href="#">Opcije moderatora</a> 
                             <ul class="dropdown-menu" role = "menu"  aria-labelledby="dLabel">
-                                <li class=" dropdown-item"><a href="#">Rokenrol</a></li>
-                                <li class="dropdown-item"><a href="#">Pank rok</a></li>
-                                <li class="dropdown-item"><a href="#">Bluz</a></li>
-                                <li class="dropdown-item"><a href="#">Narodna</a></li>
-                                <li class="dropdown-item"><a href="#">Estradna</a></li>
+                                <li class="dropdown-item"><a href="<?php echo site_url("Moderator/odobravanjeAkorda"); ?>">Odobravanje akorda</a></li>
+                                <li class="dropdown-item"><a href="<?php echo site_url("Moderator/odobravanjeKomentara"); ?>">Odobravanje komentara</a></li>
                             </ul>
                         </li>
                         <li class="nav-item px-lg-4">
-                            <a class="nav-link text-uppercase text-expanded" href="products.html">Izvođači</a>
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Moderator/onama"); ?>">O Nama</a>
                         </li>
                         <li class="nav-item px-lg-4">
-                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Gost/onama"); ?>">O Nama</a>
-                        </li>
-                        <li class="nav-item px-lg-4">
-                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Gost/dodajAkordePrikaz"); ?>">Dodaj akorde</a>
-                        </li>
-                        <li class="nav-item px-lg-4">
-                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Gost/podesavanjaPrikaz"); ?>">Podešavanja</a>
-                        </li>
-                        <li class="nav-item px-lg-4">
-                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Gost/izlogujSe"); ?>">Izloguj se</a>
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Moderator/izlogujSe"); ?>">Izloguj se</a>
                         </li>
                     </ul>
                 </div>

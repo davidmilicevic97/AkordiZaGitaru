@@ -45,7 +45,7 @@ class ModelPesma extends CI_Model {
         return $this->db->get()->row();
     }
 
-    public function brojPesama($idZanr, $idAutor){
+    public function brojPesama($idZanr=NULL, $idAutor=NULL){
         if ($idZanr != NULL && $idZanr != 0) {
             $this->db->where("idZanr", $idZanr);
         }
@@ -57,6 +57,11 @@ class ModelPesma extends CI_Model {
     
     public function brojPesamaZaKorisnika($id) {
         $this->db->where("idKor", $id);
+        return $this->db->count_all_results("pesma");
+    }
+
+    public function brojNeodobrenihPesama(){
+        $this->db->where("stanje", "neodobrena");
         return $this->db->count_all_results("pesma");
     }
     
@@ -77,6 +82,15 @@ class ModelPesma extends CI_Model {
     public function dohvatiPesmeZaKorisnika($limit, $start, $id) {
         $this->db->where("idKor", $id);
         $this->db->from("pesma");
+        $this->db->join("autor", "autor.id = pesma.idAutor", 'left');
+        $this->db->select("pesma.*, autor.naziv as 'autor'");
+        $this->db->limit($limit, $start);
+        return $this->db->get()->result();
+    }
+
+    public function dohvatiNeodobrenePesme($limit, $start){
+        $this->db->from("pesma");
+        $this->db->where("stanje", "neodobrena");
         $this->db->join("autor", "autor.id = pesma.idAutor", 'left');
         $this->db->select("pesma.*, autor.naziv as 'autor'");
         $this->db->limit($limit, $start);

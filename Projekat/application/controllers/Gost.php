@@ -70,10 +70,10 @@ class Gost extends CI_Controller {
 
     public function muzika($idZanr = 0, $idAutor = 0) {
         $config = array();
-        $config["base_url"] = base_url() . "/index.php/Gost/muzika/" . $idZanr . "/" . $idAutor . "/";
+        $config["base_url"] = base_url() . "/index.php/Moderator/muzika/" . $idZanr . "/" . $idAutor . "/";
         $config["total_rows"] = $this->ModelPesma->brojPesama($idZanr, $idAutor);
         $config["per_page"] = $this->ModelPesma->velicinaStranice;
-        $config["uri_segment"] = 5;
+        $config["uri_segment"] = 5; 
         $this->postaviConfigZaPaginaciju($config);
         $this->pagination->initialize($config);
 
@@ -109,6 +109,7 @@ class Gost extends CI_Controller {
     public function pesma($id) {
         $args = array();
         $args["pesma"] = $this->ModelPesma->dohvatiPesmu($id, TRUE);
+        $args["controller"] = "Gost";
         $args["komentari"] = $this->ModelKomentar->dohvatiKomentareZaPesmu($id);
         $this->prikazi("pesma.php", $args);
     }
