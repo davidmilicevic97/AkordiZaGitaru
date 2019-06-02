@@ -26,7 +26,7 @@
 
                                 <div class ="col-xl-12 ml-0 ">
                                     <center>
-                                        <iframe  src= "<?php echo "$src"; ?>" ></iframe> <!-- $pesma->link da se ubaci-->
+                                        <iframe src= "<?php echo $pesma->ytLink; ?>" ></iframe> <!-- $pesma->link da se ubaci-->
                                     </center>
                                 </div>
 
@@ -69,22 +69,24 @@
                         <?php
                         if (isset($controller)) {
                             if ($controller != "Gost") {
-                                echo '
-                         <div class ="row mt-2">
-                                <div class = "col-xl-5">
-                                    <div class="md-form">
-                                        <strong>Dodaj komentar:</strong>
-                                        <textarea id="form10" class="md-textarea form-control" rows="3"></textarea>
+                                ?>
+                                <form name="commentform" action="<?php echo site_url("$controller/ostaviKomentar"); ?>" method="post">
+                                    <input type = "hidden" name = "idPesme" value = "<?php echo $pesma->id; ?>"> 
+                                      <div class ="row mt-2">
+                                        <div class = "col-xl-5">
+                                            <div class="md-form">
+                                                <strong>Dodaj komentar:</strong>
+                                                <textarea name="komentarTekst" class="md-textarea form-control" rows="3"></textarea>
+                                            </div>
+                                        </div>        
+                                    </div>               
+                                    <div class = "row">
+                                        <div class = "col-xl-1">
+                                            <button type="submit" class="btn btn-warning mt-1 mb-3""/>Pošalji</button></td>
+                                        </div>
                                     </div>
-                                </div>        
-                        </div>               
-                        <div class = "row">
-                                <div class = "col-xl-1">
-                                <form name="commentform" action="' . site_url("$controller/ostaviKomentar") . '" method="post">
-                                           <button type="submit" class="btn btn-warning mt-1 mb-3""/>Pošalji</button></td>
-                                        </form>     
-                                </div>
-                        </div>';
+                                </form> 
+                                <?php
                             }
                         }
                         ?>
