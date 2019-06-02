@@ -28,21 +28,8 @@
         <h1 class="site-heading text-center text-white d-none d-lg-block">
             <span class="site-heading-upper text-primary mb-3">D Bit tim · PSI Projekat · ETF Beograd</span>
             <span class="site-heading-lower">Akordi za gitaru</span>
+            <span class="site-heading-upper text-primary mt-3"><?php echo $this->session->userdata('korisnik')->username?> (admin)</span>
         </h1>
-        <div class="row">
-            <div class =" offset-lg-3 col-lg-6">
-                <div class="alert alert-warning alert-dismissible text-center">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    <strong>Dobrodošao</strong> <?php
-                    if (isset($user)) {
-                        echo " $user";
-                    } else {
-                        echo " stranče!";
-                    }
-                    ?>
-                </div>
-            </div>
-        </div>
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
             <div class="container">
@@ -53,22 +40,26 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item active px-lg-4">
-                            <a class="nav-link text-uppercase text-expanded" href="index.html">Početna
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Admin/index"); ?>">Početna
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
-
-                        <li class="nav-item px-lg-4">
-                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Gost/onama"); ?>">O Nama</a>
-                        </li>
                         <li class="nav-item px-lg-4">   
-                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Gost/odobravanjeModeratora"); ?>">Postavljanje moderatora</a>
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Admin/odobravanjeModeratora"); ?>">Postavljanje moderatora</a>
+                        </li>
+                         <li class="nav-item px-lg-4">   
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Admin/uklanjanjeModeratora"); ?>">Uklanjanje moderatora</a>
+                        </li>
+                        <!--
+                        <li class="nav-item px-lg-4">   
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Admin/odobravanjeAdmina"); ?>">Postavljanje admina</a>
+                        </li>
+                        -->
+                         <li class="nav-item px-lg-4">   
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Admin/uklanjanjeKorisnika"); ?>">Uklanjanje korisnika</a>
                         </li>
                         <li class="nav-item px-lg-4">
-                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Gost/statistika"); ?>">Podešavanja sajta</a>
-                        </li>
-                        <li class="nav-item px-lg-4">
-                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Gost/izlogujSe"); ?>">Izloguj se</a>
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Admin/izlogujSe"); ?>">Izloguj se</a>
                         </li>
                         </li>
                     </ul>

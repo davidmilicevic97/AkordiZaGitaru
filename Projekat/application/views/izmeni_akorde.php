@@ -6,26 +6,31 @@
                     <h2 class="section-heading mb-5">
                         <span class="section-heading-lower">Forma za dodavanje akorda:</span> 
                     </h2>
-                    <form name="dodavanjeAkordaForm" action="<?php echo site_url("$controller/dodajAkorde") ?>" method="post">
+                    <form name="izmenaAkordaForm" action="<?php echo site_url("$controller/izmeniAkorde") ?>" method="post">
+                        <input type = "hidden" name = "idPesme" value = "<?php echo $idPesme; ?>">
                         <table class = "table table-striped mt-5">
                             <tr>
                                 <td>Autor/Bend:</td>
-                                <td><input type = "text" name = "author"></td>
+                                <td><input type = "text" name = "author" value="<?php echo $autor; ?>"></td>
                             </tr>
                             <tr>
                                 <td>Naziv pesme:</td>
-                                <td><input type = "text" name = "songName"></td>
+                                <td><input type = "text" name = "songName" value="<?php echo $nazivPesme; ?>"></td>
                             </tr>
                             <tr>
                                 <td>Youtube link:</td>
-                                <td><input type = "text" name = "ytLink"></td>
+                                <td><input type = "text" name = "ytLink" value="<?php echo $ytLink; ?>"></td>
                             </tr>
                             <tr>
                                 <td colspan="2">
                                     <select name = "zanrId">
                                         <?php 
                                            foreach ($zanrModel->dohvatiZanrove() as $zanr) {
-                                               echo "<option value='".$zanr->id."'>";
+                                               echo "<option value='".$zanr->id."'";
+                                               if ($zanr->id == $zanrId) {
+                                                   echo " selected = 'selected'";
+                                               }
+                                               echo ">";
                                                echo $zanr->tip;
                                                echo "</option><br/>";
                                            } 
@@ -35,11 +40,11 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <textarea rows="25" cols="70" name = "song" placeholder="Ovde uneti tekst i akorde pesme..."></textarea>
+                                    <textarea rows="25" cols="70" name = "song"><?php echo $textPesme; ?></textarea>
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2"><button type="submit" class="btn btn-primary" ">Dodaj akorde</button></td>
+                                <td colspan="2"><button type="submit" class="btn btn-primary" ">Izmeni akorde</button></td>
                             </tr>
                         </table>
                     </form>

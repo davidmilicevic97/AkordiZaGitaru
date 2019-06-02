@@ -15,75 +15,118 @@
 
                         <div class ="row">
                             <div class ="col-xl-8 text-justify">
-                                <!--<p>Mi smo trojica studenata Elektrotehničkog fakulteta koji ovaj sajt rade kao projekat iz predmeta Principi Softverskog Inženjerstva na trećoj godini studija.</p>
-                                <p class="mb-0">D Bit tim čine : Ratko Amanović, David Milićević i Andrija Veljković. :')</p>-->
                                 <?php
-                                  echo $pesma->sadrzaj;
+                                echo $pesma->putanjaDoAkorda;
                                 ?> 
                             </div>
                             <div class ="col-xl-4">
 
-                                <div class ="col-xl-12 ml-0">
-                                    <iframe  src= "<?php echo "$src"; ?>" ></iframe> <!-- $pesma->link da se ubaci-->
+
+                                <div class ="col-xl-12 ml-0 ">
+                                    <center>
+                                        <iframe src= "<?php echo $pesma->ytLink; ?>" ></iframe> <!-- $pesma->link da se ubaci-->
+                                    </center>
                                 </div>
 
-                                <div class ="col-xl-12 mt-5">
+                                <div class ="col-xl-12 mt-5 mx-auto">
                                     <script type="text/javascript" src="<?php echo base_url(); ?>assets/vendor/timer.js"></script>
-                                    <input type="button" value="start countdown" id="start" />
-                                    <input type="button" value="stop countdown" id="stop" />
-                                    <input type="text" value="" id="time" />
+                                    <center>
+                                        <table>
+                                            <?php
+                                            if ($this->session->userdata('korisnik') != null) {
+                                                if ($this->session->userdata('korisnik')->tip == 'moderator') {
+                                                    echo "<tr>";
+                                                    if ($pesma->stanje == 'neodobrena') {
+                                                        echo " <td>
+                                                            <a class='btn btn-primary' href=" . site_url("$controller/odobriPesmu/") . $pesma->id . ">Odobri</a>
+                                                          </td>";
+                                                    }
+                                                    echo "<td>
+                                                            <a class='btn btn-primary' href=" . site_url("$controller/obrisiPesmu/") . $pesma->id . ">Obriši</a>
+                                                        </td>
+                                                     </tr>";
+                                                }
+                                            }
+                                            ?>
+                                            <tr>
+                                                <td colspan="2" align = "center">
+                                                    <strong>Metronom</strong> 
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="button" value="Kreni" id="start" />
+                                                </td>
+                                                <td>
+                                                    <input type="button" value="Zaustavi" id="stop" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" align = "center">
+                                                    Period: 
+                                                    <input type="text" value="" id="time" maxlength="4" size="4" />
+                                                    ms
+                                                </td>    
+                                            </tr>
+                                        </table>
+                                    </center>
                                 </div>
-                                <div class ="col-xl-12 mt-2">
-                                    Ukupno puta pregledano: &nbsp; <!--<?php echo $pesma->brojac ?>">-->
+
+                                <div class ="col-xl-12 mt-2 justify-content-center mx-auto">
+                                    <center>
+                                        Ukupno puta pregledano: &nbsp; <?php echo $pesma->brPregleda ?>
+                                    </center>
                                 </div>
+
                             </div>
                         </div>
                         <?php
-                            if(isset($controller)){
-                                if ($controller != "Gost"){
-                                    echo '
-                         <div class ="row mt-2">
-                                <div class = "col-xl-5">
-                                    <div class="md-form">
-                                        <strong>Dodaj komentar:</strong>
-                                        <textarea id="form10" class="md-textarea form-control" rows="3"></textarea>
+                        if (isset($controller)) {
+                            if ($controller != "Gost") {
+                                ?>
+                                <form name="commentform" action="<?php echo site_url("$controller/ostaviKomentar"); ?>" method="post">
+                                    <input type = "hidden" name = "idPesme" value = "<?php echo $pesma->id; ?>"> 
+                                      <div class ="row mt-2">
+                                        <div class = "col-xl-5">
+                                            <div class="md-form">
+                                                <strong>Dodaj komentar:</strong>
+                                                <textarea name="komentarTekst" class="md-textarea form-control" rows="3"></textarea>
+                                            </div>
+                                        </div>        
+                                    </div>               
+                                    <div class = "row">
+                                        <div class = "col-xl-1">
+                                            <button type="submit" class="btn btn-warning mt-1 mb-3""/>Pošalji</button></td>
+                                        </div>
                                     </div>
-                                </div>        
-                        </div>               
-                        <div class = "row">
-                                <div class = "col-xl-1">
-                                <form name="commentform" action="'.site_url("$controller/ostaviKomentar").'" method="post">
-                                           <button type="submit" class="btn btn-warning mt-1 mb-3""/>Pošalji</button></td>
-                                        </form>     
-                                </div>
-                        </div>'; 
-                                }
-                            } ?>
-                        
-                        <?php 
-                        if (isset($komentari)){
-                            foreach ($komentari as $komentar){
-                        echo ' 
+                                </form> 
+                                <?php
+                            }
+                        }
+                        ?>
+
+                        <?php
+                        if (isset($komentari)) {
+                            foreach ($komentari as $komentar) {
+                                echo ' 
                         <div class ="row">
                             <div class ="col-xl-8">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-10">
-                                                <p>
-                                                    <p class="float-left text-info" ><strong>'.$komentar->ime.'</strong></p>
-                                                </p>
+                                                <p class="float-left text-info" ><strong>' . $komentar->username . ' ('. $komentar->vreme .')</strong></p>
                                                 <div class="clearfix"></div>
-                                                <p>'.$komentar->tekst.'</p>
-                                                <p>
-
-                                                </p>
+                                                <p>' . $komentar->text . '</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>';}} ?>
+                        </div>';
+                            }
+                        }
+                        ?>
                     </div>
                 </div>
             </div>

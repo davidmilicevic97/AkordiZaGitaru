@@ -28,21 +28,8 @@
         <h1 class="site-heading text-center text-white d-none d-lg-block">
             <span class="site-heading-upper text-primary mb-3">D Bit tim · PSI Projekat · ETF Beograd</span>
             <span class="site-heading-lower">Akordi za gitaru</span>
+            <span class="site-heading-upper text-primary mt-3"><?php echo $this->session->userdata('korisnik')->username?> (moderator)</span>
         </h1>
-        <div class="row">
-            <div class =" offset-lg-3 col-lg-6">
-                <div class="alert alert-warning alert-dismissible text-center">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    <strong>Dobrodošao</strong> <?php
-                    if (isset($user)) {
-                        echo " $user";
-                    } else {
-                        echo " stranče!";
-                    }
-                    ?>
-                </div>
-            </div>
-        </div>
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
             <div class="container">
@@ -53,34 +40,46 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item active px-lg-4">
-                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Gost/index"); ?>">Početna
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Moderator/index"); ?>">Početna
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item px-lg-4 dropdown">
                             <a class="nav-link text-uppercase text-expanded dropdown-toggle" data-toggle="dropdown"  href="#">Žanrovi</a> 
                             <ul class="dropdown-menu" role = "menu"  aria-labelledby="dLabel">
-                                <li class=" dropdown-item"><a href="#">Rokenrol</a></li>
-                                <li class="dropdown-item"><a href="#">Pank rok</a></li>
-                                <li class="dropdown-item"><a href="#">Bluz</a></li>
-                                <li class="dropdown-item"><a href="#">Narodna</a></li>
-                                <li class="dropdown-item"><a href="#">Estradna</a></li>
+                                <li class="dropdown-item"><a href="<?php echo site_url("Moderator/muzika/") ?>">Svi zanrovi</a></li>
+                                <?php
+                                    foreach ($zanrModel->dohvatiZanrove() as $zanr) {
+                                        echo "<li class='dropdown-item'><a href='";
+                                        echo site_url("Moderator/muzika/").$zanr->id;
+                                        echo "'>";
+                                        echo $zanr->tip;
+                                        echo "</a></li>";
+                                    }
+                                ?>
                             </ul>
                         </li>
                         <li class="nav-item px-lg-4">
-                            <a class="nav-link text-uppercase text-expanded" href="products.html">Izvođači</a>
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Moderator/izvodjaci"); ?>">Izvođači</a>
                         </li>
                         <li class="nav-item px-lg-4">
-                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Gost/onama"); ?>">O Nama</a>
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Moderator/dodajAkordePrikaz"); ?>">Dodaj akorde</a>
                         </li>
                         <li class="nav-item px-lg-4">
-                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Gost/dodajAkordePrikaz"); ?>">Dodaj akorde</a>
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Moderator/mojiAkordiPrikaz"); ?>">Moji akordi</a>
+                        </li>
+                        <li class="nav-item px-lg-4 dropdown">
+                            <a class="nav-link text-uppercase text-expanded dropdown-toggle" data-toggle="dropdown"  href="#">Opcije moderatora</a> 
+                            <ul class="dropdown-menu" role = "menu"  aria-labelledby="dLabel">
+                                <li class="dropdown-item"><a href="<?php echo site_url("Moderator/odobravanjeAkorda"); ?>">Odobravanje akorda</a></li>
+                                <li class="dropdown-item"><a href="<?php echo site_url("Moderator/odobravanjeKomentara"); ?>">Odobravanje komentara</a></li>
+                            </ul>
                         </li>
                         <li class="nav-item px-lg-4">
-                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Gost/podesavanjaPrikaz"); ?>">Podešavanja</a>
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Moderator/onama"); ?>">O Nama</a>
                         </li>
                         <li class="nav-item px-lg-4">
-                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Gost/izlogujSe"); ?>">Izloguj se</a>
+                            <a class="nav-link text-uppercase text-expanded" href="<?php echo site_url("Moderator/izlogujSe"); ?>">Izloguj se</a>
                         </li>
                     </ul>
                 </div>

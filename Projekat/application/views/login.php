@@ -13,14 +13,15 @@
                     <table class = "table table-striped mt-5">
                         <tr>
                             <td>Korisničko ime:</td>
-                            <td><input type = "text" name = "user"></td>
-                           
+                            <td><input type = "text" name = "username" value="<?php echo set_value('username') ?>"></td>
+                            <td><?php echo form_error("username","<font color='red'>","</font>"); ?></td>
                         </tr>
                         <tr>
                             <td>Lozinka</td>
-                            <td><input type = "password" name = "pass"></td>
+                            <td><input type = "password" name = "password"></td>
+                            <td><?php echo form_error("password","<font color='red'>","</font>"); ?></td>
                         </tr>
-                            <td colspan="2"><button type="submit" class="btn btn-primary" ">Login</button></td>
+                            <td colspan="3"><button type="submit" class="btn btn-primary" ">Login</button></td>
                         </tr>
                     </table>
                 </form>
