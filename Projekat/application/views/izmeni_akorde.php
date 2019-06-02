@@ -8,6 +8,7 @@
                     </h2>
                     <form name="izmenaAkordaForm" action="<?php echo site_url("$controller/izmeniAkorde") ?>" method="post">
                         <input type = "hidden" name = "idPesme" value = "<?php echo $idPesme; ?>">
+                        <input type = "hidden" name = "putanjaDoAkorda" value = "<?php echo $putanjaDoAkorda; ?>">
                         <table class = "table table-striped mt-5">
                             <tr>
                                 <td>Autor/Bend:</td>
@@ -40,7 +41,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <textarea rows="25" cols="70" name = "song"><?php echo $textPesme; ?></textarea>
+                                    <textarea rows="25" cols="70" name = "song"><?php echo file_get_contents($putanjaDoAkorda); ?></textarea>
                                 </td>
                             </tr>
                             <tr>
