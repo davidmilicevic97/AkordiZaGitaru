@@ -100,6 +100,15 @@ class ModelPesma extends CI_Model {
         return $this->db->get()->result();
     }
 
+    public function dohvatiNajpopularnijePesme($number) {
+        $this->db->from("pesma");
+        $this->db->join("autor", "autor.id = pesma.idAutor", 'left');
+        $this->db->select("pesma.*, autor.naziv as 'autor'");
+        $this->db->order_by("pesma.brPregleda", "DESC");
+        $this->db->limit($number, 0);
+        return $this->db->get()->result();
+    }
+    
     public function odobriPesmu($id) {
         $this->db->set("stanje", "odobrena");
         $this->db->where("id", $id);

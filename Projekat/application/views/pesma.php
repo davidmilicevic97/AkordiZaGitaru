@@ -16,18 +16,23 @@
                         <div class ="row">
                             <div class ="col-xl-8 text-justify">
                                 <?php
-                                echo $pesma->putanjaDoAkorda;
+                                echo file_get_contents($pesma->putanjaDoAkorda);
                                 ?> 
                             </div>
                             <div class ="col-xl-4">
 
-
-                                <div class ="col-xl-12 ml-0 ">
-                                    <center>
-                                        <iframe src= "<?php echo $pesma->ytLink; ?>" ></iframe> <!-- $pesma->link da se ubaci-->
-                                    </center>
-                                </div>
-
+                                <?php
+                                    $ytLinkHeaders = @get_headers($pesma->ytLink);
+                                    if ($ytLinkHeaders && $ytLinkHeaders[0] != "HTTP/1.1 404 Not Found" && strpos($pesma->ytLink, "youtube" !== false)) {
+                                ?>
+                                        <div class ="col-xl-12 ml-0 ">
+                                            <center>
+                                                <iframe src= "<?php echo $pesma->ytLink; ?>" ></iframe> <!-- $pesma->link da se ubaci-->
+                                            </center>
+                                        </div>
+                                <?php
+                                    }
+                                ?>
                                 <div class ="col-xl-12 mt-5 mx-auto">
                                     <script type="text/javascript" src="<?php echo base_url(); ?>assets/vendor/timer.js"></script>
                                     <center>
@@ -55,10 +60,10 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <input type="button" value="Kreni" id="start" />
+                                                    <input class="btn btn-primary" type="button" value="Kreni" id="start" />
                                                 </td>
                                                 <td>
-                                                    <input type="button" value="Zaustavi" id="stop" />
+                                                    <input class="btn btn-primary" type="button" value="Zaustavi" id="stop" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -96,7 +101,7 @@
                                     </div>               
                                     <div class = "row">
                                         <div class = "col-xl-1">
-                                            <button type="submit" class="btn btn-warning mt-1 mb-3""/>Pošalji</button></td>
+                                            <button type="submit" class="btn btn-primary mt-1 mb-3"/>Pošalji</button></td>
                                         </div>
                                     </div>
                                 </form> 
