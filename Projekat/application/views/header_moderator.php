@@ -28,7 +28,6 @@
         <h1 class="site-heading text-center text-white d-none d-lg-block">
             <span class="site-heading-upper text-primary mb-3">D Bit tim · PSI Projekat · ETF Beograd</span>
             <span class="site-heading-lower">Akordi za gitaru</span>
-            
             <span class="site-heading-upper text-primary mt-3"><?php echo $this->session->userdata('korisnik')->username?> (moderator)</span>
         </h1>
         <!-- Navigation -->

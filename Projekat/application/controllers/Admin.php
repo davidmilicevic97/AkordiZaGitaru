@@ -29,6 +29,12 @@ class Admin extends CI_Controller {
         $this->load->view("footer.php");
     }
 
+    public function izlogujSe() {
+        $this->session->unset_userdata("korisnik");
+        $this->session->sess_destroy();
+        redirect("Gost");
+    }
+
     public function odobravanjeModeratora() {
         $config = array();
         $config["base_url"] = base_url() . "/index.php/Admin/odobravanjeModeratora";
@@ -82,7 +88,8 @@ class Admin extends CI_Controller {
         $data["pocetniRedniBr"] = $pocetniRedniBr;
         $this->prikazi("uklanjanje_moderatora.php", $data);
     }
-
+    
+/*
     public function odobravanjeAdmina() {
         $config = array();
         $config["base_url"] = base_url() . "/index.php/Admin/odobravanjeAdmina";
@@ -102,7 +109,8 @@ class Admin extends CI_Controller {
         $data["pocetniRedniBr"] = $pocetniRedniBr;
         $this->prikazi("odobravanje_admina.php", $data);
     }
-
+*/
+    
     public function uklanjanjeKorisnika() {
         $config = array();
         $config["base_url"] = base_url() . "/index.php/Admin/uklanjanjeModeratora";
@@ -121,12 +129,12 @@ class Admin extends CI_Controller {
         $data["pocetniRedniBr"] = $pocetniRedniBr;
         $this->prikazi("uklanjanje_korisnika.php", $data);
     }
-
+/*
     public function dodavanjeAdmina($id) {
         $this->ModelKorisnik->promeniTip($id, "admin");
         redirect('Admin/odobravanjeAdmina');
     }
-
+*/
     public function dodavanjeModeratora($id) {
         $this->ModelKorisnik->promeniTip($id, "moderator");
         redirect('Admin/odobravanjeModeratora');
