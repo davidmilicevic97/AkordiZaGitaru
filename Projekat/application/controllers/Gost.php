@@ -15,7 +15,6 @@ class Gost extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-
         $this->load->model("ModelKorisnik");
         $this->load->model("ModelPesma");
         $this->load->model("ModelKomentar");

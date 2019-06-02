@@ -14,6 +14,7 @@
 class ModelKorisnik extends CI_Model {
 
     public $korisnik;
+    public $velicinaStranice = 3;
 
     public function __construct() {
         parent::__construct();
@@ -26,7 +27,7 @@ class ModelKorisnik extends CI_Model {
         $this->db->set("tip", "korisnik");
         $this->db->insert("korisnik");
     }
-    
+
     public function dohvatiKorisnika($username) {
         $result = $this->db->where("username", $username)->get("korisnik");
         $korisnik = $result->row();
@@ -37,7 +38,7 @@ class ModelKorisnik extends CI_Model {
             return FALSE;
         }
     }
-    
+
     public function ispravanPassword($password) {
         if ($this->korisnik != NULL && $this->korisnik->password == $password) {
             return TRUE;
@@ -45,12 +46,26 @@ class ModelKorisnik extends CI_Model {
             return FALSE;
         }
     }
-    
-    public function dohvatiKorisnike($tip = NULL) {
+
+    public function dohvatiKorisnike($limit, $start, $tip = NULL, $like = NULL) {
         if ($tip != NULL) {
             $this->db->where("tip", $tip);
         }
+        if ($like != NULL) {
+            $this->db->like("username", $like);
+        }
+        $this->db->limit($limit, $start);
         return $this->db->get("korisnik")->result();
+    }
+
+    public function brojKorisnika($tip = NULL, $like = NULL) {
+        if ($tip != NULL) {
+            $this->db->where("tip", $tip);
+        }
+        if ($like != NULL) {
+            $this->db->like("username", $like);
+        }
+        return $this->db->count_all_results("korisnik");
     }
 
     public function promeniTip($id, $tip) {
@@ -58,9 +73,10 @@ class ModelKorisnik extends CI_Model {
         $this->db->where("id", $id);
         $this->db->update("korisnik");
     }
-    
+
     public function ukloniKorisnika($id) {
         $this->db->where("id", $id);
         $this->db->delete("korisnik");
     }
+
 }
