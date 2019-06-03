@@ -1,15 +1,12 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @author Ratko Amanović 2016/0061
  */
 
 /**
- * Description of Moderator
- *
- * @author ratko
+ * Gost controller - klasa za funkcionalnosti moderatora
+ * 
+ * @version 1.0
  */
 class Moderator extends CI_Controller {
 

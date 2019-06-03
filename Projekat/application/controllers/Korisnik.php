@@ -1,15 +1,12 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @author David Milićević 2016/0055
  */
 
 /**
- * Description of Korisnik
- *
- * @author David
+ * Gost controller - klasa za funkcionalnosti registrovanog korisnika
+ * 
+ * @version 1.0
  */
 class Korisnik extends CI_Controller {
     
@@ -38,13 +35,25 @@ class Korisnik extends CI_Controller {
         }
     }
 
+    /**
+     * Kreiranje index stranice za gost kontrolera
+     * 
+     * @return void
+     */
     public function index() {
         $args = array();
         $args["controller"] = "Korisnik";
         $args["modelPesma"] = $this->ModelPesma;
         $this->prikazi("index.php", $args);
     }
-
+  
+    /**
+     * Parametrizovana funkcija za prikazivanje stranice sa zadatim glavnim delom.
+     * 
+     * @param string $glavniDeo Naziv view-a koji treba prikazati u glavnom delu
+     * @param array $data Skup parametara koje treba proslediti zaglavlju i glavnom delu
+     * @return void
+     */
     public function prikazi($glavniDeo, $data = null) {
         $data['zanrModel'] = $this->ModelZanr;
         $data['autorModel'] = $this->ModelAutor;
@@ -52,17 +61,33 @@ class Korisnik extends CI_Controller {
         $this->load->view($glavniDeo, $data);
         $this->load->view("footer.php");
     }
-
+    
+    /**
+     * Odjavljivanje trenutnog korisnika sa sistema
+     * 
+     * @return void
+     */
     public function izlogujSe() {
         $this->session->unset_userdata("korisnik");
         $this->session->sess_destroy();
         redirect("Gost");
     }
 
+    /**
+     * Prikazivanje stranice sa informacijama o autorima sajta
+     * 
+     * @return void
+     */
     public function onama() {
         $this->prikazi("onama.php");
     }
 
+    /**
+     * Podesavanje parametara za brojanje stranica
+     * 
+     * @param array $config Niz koji treba popuniti parametrima za konfiguraciju brojanja stranica 
+     * @return void
+     */
     private function postaviConfigZaPaginaciju(&$config) {
         $config["full_tag_open"] = "<ul class='pagination'>";
         $config["full_tag_close"] = "</ul>";
@@ -76,6 +101,14 @@ class Korisnik extends CI_Controller {
         $config["num_tag_close"] = "</li>";
     }
 
+    /**
+     * Prikazivanje stranice sa listom pesama koje su selektovane zadatim parametrima
+     * 
+     * @param int $idZanr id zanra za koji treba prikazivati pesme
+     * @param int $idAutor id autora za kojeg treba prikazivati pesme
+     * @param string $pesmaPocinjeSlovom kojim slovom pocinju pesme koje treba prikazivati 
+     * @return void
+     */
     public function muzika($idZanr = 0, $idAutor = 0, $pesmaPocinjeSlovom = 0) {
         $config = array();
         $config["base_url"] = base_url() . "/index.php/Korisnik/muzika/" . $idZanr . "/" . $idAutor . "/" . $pesmaPocinjeSlovom . "/";
@@ -97,6 +130,12 @@ class Korisnik extends CI_Controller {
         $this->prikazi("list.php", $data);
     }
 
+    /**
+     * Prikazivanje stranice sa listom izvodjaca koji su selektovani zadatim parametrima
+     * 
+     * @param string $imePocinjeSlovom kojim slovom pocinju imena autora koje treba prikazivati
+     * @return void
+     */
     public function izvodjaci($imePocinjeSlovom = 0) {
         $config = array();
         $config["base_url"] = base_url() . "/index.php/korisnik/izvodjaci/" . $imePocinjeSlovom . "/";
@@ -116,6 +155,12 @@ class Korisnik extends CI_Controller {
         $this->prikazi("izvodjaci.php", $data);
     }
 
+    /**
+     * Prikazivanje stranice za akorde
+     * 
+     * @param int $id id pesme koju treba prikazati
+     * @return void
+     */
     public function pesma($id) {
         $args = array();
         $args["pesma"] = $this->ModelPesma->dohvatiPesmu($id, TRUE);
@@ -124,12 +169,23 @@ class Korisnik extends CI_Controller {
         $this->prikazi("pesma.php", $args);
     }
 
+    /**
+     * Prikazivanje stranice za dodavanje novih akorda
+     * 
+     * @return void
+     */
     public function dodajAkordePrikaz() {
         $args = array();
         $args["controller"] = "korisnik";
         $this->prikazi("dodaj_akorde.php", $args);
     }
-
+    
+    /**
+     * Dohvatanje id-ja autora sa zadatim imenom ili kreiranje novog autora ukoliko ne postoji
+     * 
+     * @param string $autor naziv autora
+     * @return int
+     */
     private function dohvatiAutorIdIliDodaj($autor) {
         $id = $this->ModelAutor->dohvatiId($autor);
         if ($id != null) {
@@ -139,7 +195,13 @@ class Korisnik extends CI_Controller {
         $id = $this->ModelAutor->dohvatiId($autor);
         return $id;
     }
-
+    
+    /**
+     * Dodavanje novih akorda 
+     * (poziva se iz frontend dela i parametri se prosledjuju post metodom)
+     * 
+     * @return void
+     */
     public function dodajAkorde() {
         $korisnikId = $this->session->userdata('korisnik')->id;
         
@@ -163,7 +225,12 @@ class Korisnik extends CI_Controller {
                 $zanrId, $autorId, $korisnikId);
         redirect("Korisnik");
     }
-
+    
+    /**
+     * Prikazivanje stranice sa akordima koje je kreirao trenutno ulogovani korisnik
+     * 
+     * @return void
+     */
     public function mojiAkordiPrikaz() {
         $korisnikId = $this->session->userdata('korisnik')->id;
         
@@ -186,6 +253,12 @@ class Korisnik extends CI_Controller {
         $this->prikazi("listZaKorisnika.php", $data);  
     }
     
+    /**
+     * Prikazivanje stranice za izmenu akorda za konkretnu pesmu
+     * 
+     * @param int $idPesme id pesme koju treba izmeniti
+     * @return void
+     */
     public function pesmaZaKorisnika($idPesme) {
         $pesma = $this->ModelPesma->dohvatiPesmu($idPesme, FALSE);
         
@@ -200,6 +273,12 @@ class Korisnik extends CI_Controller {
         $this->prikazi("izmeni_akorde.php", $args);
     }
     
+    /**
+     * Izmena vec postojecih akorda
+     * (poziva se iz frontend dela i parametri se prosledjuju post metodom)
+     * 
+     * @return void
+     */
     public function izmeniAkorde() {
         $idPesme = $this->input->post("idPesme");
         $putanjaDoAkorda = $this->input->post("putanjaDoAkorda");
@@ -216,6 +295,12 @@ class Korisnik extends CI_Controller {
         redirect("Korisnik");
     }
     
+    /**
+     * Cuvanje komentara 
+     * (poziva se iz frontend dela i parametri se prosledjuju post metodom)
+     * 
+     * @return void
+     */
     public function ostaviKomentar() {
         $text = $this->input->post("komentarTekst");
         $idPes = $this->input->post("idPesme");

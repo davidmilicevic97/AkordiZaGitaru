@@ -1,3 +1,4 @@
+<!-- @author Andrija Veljković 2016/0328 -->
 <section class="page-section cta">
     <div class="container">
         <div class="row">
@@ -23,12 +24,12 @@
                             <tr>
                                 <td colspan="2">
                                     <select name = "zanrId">
-                                        <?php 
-                                           foreach ($zanrModel->dohvatiZanrove() as $zanr) {
-                                               echo "<option value='".$zanr->id."'>";
-                                               echo $zanr->tip;
-                                               echo "</option><br/>";
-                                           } 
+                                        <?php
+                                        foreach ($zanrModel->dohvatiZanrove() as $zanr) {
+                                            echo "<option value='" . $zanr->id . "'>";
+                                            echo $zanr->tip;
+                                            echo "</option><br/>";
+                                        }
                                         ?>
                                     </select>
                                 </td>
