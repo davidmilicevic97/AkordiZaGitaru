@@ -1,15 +1,13 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @author David Milićević 2016/0055
+ * @author Ratko Amanović 2016/0061
  */
 
 /**
- * Description of Gost
- *
- * @author David
+ * Gost controller - klasa za funkcionalnosti gosta
+ * 
+ * @version 1.0
  */
 class Gost extends CI_Controller {
 
@@ -40,14 +38,26 @@ class Gost extends CI_Controller {
             }
         }
     }
-
+    
+    /**
+     * Kreiranje index stranice za gost kontrolera
+     * 
+     * @return void
+     */
     public function index() {
         $args = array();
         $args["controller"] = "Gost";
         $args["modelPesma"] = $this->ModelPesma;
         $this->prikazi("index.php", $args);
     }
-
+    
+    /**
+     * Parametrizovana funkcija za prikazivanje stranice sa zadatim glavnim delom.
+     * 
+     * @param string $glavniDeo Naziv view-a koji treba prikazati u glavnom delu
+     * @param array $data Skup parametara koje treba proslediti zaglavlju i glavnom delu 
+     * @return void
+     */
     public function prikazi($glavniDeo, $data = null) {
         $data['zanrModel'] = $this->ModelZanr;
         $data['autorModel'] = $this->ModelAutor;
@@ -55,7 +65,13 @@ class Gost extends CI_Controller {
         $this->load->view($glavniDeo, $data);
         $this->load->view("footer.php");
     }
-
+    
+    /**
+     * Prikazivanje stranice za login
+     * 
+     * @param string $poruka Poruka koju treba prikazati na stranici (ukoliko je doslo do greske npr) 
+     * @return void
+     */
     public function login($poruka = null) {
         $podaci = array();
         if ($poruka) {
@@ -63,7 +79,13 @@ class Gost extends CI_Controller {
         }
         $this->prikazi("login.php", $podaci);
     }
-
+    
+    /**
+     * Prikazivanje stranice za registraciju
+     * 
+     * @param string $poruka Poruka koju treba prikazati na stranici (ukoliko je doslo do greske npr)
+     * @return void
+     */
     public function registracija($poruka = null) {
         $podaci = array();
         if ($poruka) {
@@ -71,11 +93,22 @@ class Gost extends CI_Controller {
         }
         $this->prikazi("registracija.php", $podaci);
     }
-
+    
+    /**
+     * Prikazivanje stranice sa informacijama o autorima sajta
+     * 
+     * @return void
+     */
     public function onama() {
         $this->prikazi("onama.php");
     }
 
+    /**
+     * Podesavanje parametara za brojanje stranica
+     * 
+     * @param array $config Niz koji treba popuniti parametrima za konfiguraciju brojanja stranica
+     * @return void
+     */
     private function postaviConfigZaPaginaciju(&$config) {
         $config["full_tag_open"] = "<ul class='pagination'>";
         $config["full_tag_close"] = "</ul>";
@@ -88,7 +121,15 @@ class Gost extends CI_Controller {
         $config["num_tag_open"] = "<li class='page-link'>";
         $config["num_tag_close"] = "</li>";
     }
-
+    
+    /**
+     * Prikazivanje stranice sa listom pesama koje su selektovane zadatim parametrima
+     * 
+     * @param int $idZanr id zanra za koji treba prikazivati pesme
+     * @param int $idAutor id autora za kojeg treba prikazivati pesme
+     * @param string $pesmaPocinjeSlovom kojim slovom pocinju pesme koje treba prikazivati
+     * @return void
+     */
     public function muzika($idZanr = 0, $idAutor = 0, $pesmaPocinjeSlovom = 0) {
         $config = array();
         $config["base_url"] = base_url() . "/index.php/Gost/muzika/" . $idZanr . "/" . $idAutor . "/" . $pesmaPocinjeSlovom . "/";
@@ -108,7 +149,13 @@ class Gost extends CI_Controller {
         $data["pocetniRedniBr"] = $pocetniRedniBr + 1;
         $this->prikazi("list.php", $data);
     }
-
+    
+    /**
+     * Prikazivanje stranice sa listom izvodjaca koji su selektovani zadatim parametrima
+     * 
+     * @param string $imePocinjeSlovom kojim slovom pocinju imena autora koje treba prikazivati
+     * @return void
+     */
     public function izvodjaci($imePocinjeSlovom = 0) {
         $config = array();
         $config["base_url"] = base_url() . "/index.php/gost/izvodjaci/" . $imePocinjeSlovom . "/";
@@ -127,7 +174,13 @@ class Gost extends CI_Controller {
         $data["pocetniRedniBr"] = $pocetniRedniBr + 1;
         $this->prikazi("izvodjaci.php", $data);
     }
-
+    
+    /**
+     * Prikazivanje stranice za akorde
+     * 
+     * @param int $id id pesme koju treba prikazati
+     * @return void
+     */
     public function pesma($id) {
         $args = array();
         $args["pesma"] = $this->ModelPesma->dohvatiPesmu($id, TRUE);
@@ -135,7 +188,13 @@ class Gost extends CI_Controller {
         $args["komentari"] = $this->ModelKomentar->dohvatiKomentareZaPesmu($id);
         $this->prikazi("pesma.php", $args);
     }
-
+    
+    /**
+     * Logovanje korisnika na sistem 
+     * (poziva se iz frontend dela i parametri se prosledjuju post metodom)
+     * 
+     * @return void
+     */
     public function ulogujse() {
         $this->form_validation->set_rules("username", "Korisničko ime", "required|min_length[8]|max_length[20]");
         $this->form_validation->set_rules("password", "Lozinka", "required|min_length[8]|max_length[20]");
@@ -169,7 +228,13 @@ class Gost extends CI_Controller {
             $this->login();
         }
     }
-
+    
+    /**
+     * Registrovanje novog korisnika 
+     * (poziva se iz frontend dela i parametri se prosledjuju post metodom)
+     * 
+     * @return void
+     */
     public function registrujse() {
         $this->form_validation->set_rules("username", "Korisničko ime", "required|min_length[8]|max_length[20]");
         $this->form_validation->set_rules("password", "Lozinka", "required|min_length[8]|max_length[20]");

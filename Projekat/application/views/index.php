@@ -1,4 +1,5 @@
-
+<!-- @author Ratko Amanović 2016/0061 -->
+<!-- @author David Milićević 2016/0055 -->
 <section class="page-section clearfix">
     <div class="container">
         <div class="intro">
@@ -36,15 +37,15 @@
                             </tr>
                         </thead>
                         <?php
-                            $redniBr = 1;
-                            foreach ($modelPesma->dohvatiNajpopularnijePesme(10) as $numera) {
-                                echo "<tr>"
-                                . "<td scope = 'col'>" . $redniBr++ . "</td>"
-                                . "<td scope = 'col'>" . $numera->autor . "</td>"
-                                . "<td scope = 'col'><a href =" . site_url("$controller/pesma/") . $numera->id . ">" . $numera->naziv . "</a></td>"
-                                . "<td scope = 'col'>". $numera->brPregleda . "</td>";
-                                echo "</tr>";
-                            }
+                        $redniBr = 1;
+                        foreach ($modelPesma->dohvatiNajpopularnijePesme(10) as $numera) {
+                            echo "<tr>"
+                            . "<td scope = 'col'>" . $redniBr++ . "</td>"
+                            . "<td scope = 'col'>" . $numera->autor . "</td>"
+                            . "<td scope = 'col'><a href =" . site_url("$controller/pesma/") . $numera->id . ">" . $numera->naziv . "</a></td>"
+                            . "<td scope = 'col'>" . $numera->brPregleda . "</td>";
+                            echo "</tr>";
+                        }
                         ?>
                     </table>
                 </div>

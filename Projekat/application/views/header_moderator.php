@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
+<!-- @author Andrija Veljković 2016/0328 -->
+<!-- @author Ratko Amanović 2016/0061 -->
 <html lang="en">
-
     <head>
-
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
@@ -20,16 +19,15 @@
 
         <!-- Custom styles for this template -->
         <link href="<?php echo base_url(); ?>assets/css/business-casual.min.css" rel="stylesheet">
-
     </head>
 
     <body>
-
         <h1 class="site-heading text-center text-white d-none d-lg-block">
             <span class="site-heading-upper text-primary mb-3">D Bit tim · PSI Projekat · ETF Beograd</span>
             <span class="site-heading-lower">Akordi za gitaru</span>
-            <span class="site-heading-upper text-primary mt-3"><?php echo $this->session->userdata('korisnik')->username?> (moderator)</span>
+            <span class="site-heading-upper text-primary mt-3"><?php echo $this->session->userdata('korisnik')->username ?> (moderator)</span>
         </h1>
+
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
             <div class="container">
@@ -49,13 +47,13 @@
                             <ul class="dropdown-menu" role = "menu"  aria-labelledby="dLabel">
                                 <li class="dropdown-item"><a href="<?php echo site_url("Moderator/muzika/") ?>">Svi zanrovi</a></li>
                                 <?php
-                                    foreach ($zanrModel->dohvatiZanrove() as $zanr) {
-                                        echo "<li class='dropdown-item'><a href='";
-                                        echo site_url("Moderator/muzika/").$zanr->id;
-                                        echo "'>";
-                                        echo $zanr->tip;
-                                        echo "</a></li>";
-                                    }
+                                foreach ($zanrModel->dohvatiZanrove() as $zanr) {
+                                    echo "<li class='dropdown-item'><a href='";
+                                    echo site_url("Moderator/muzika/") . $zanr->id;
+                                    echo "'>";
+                                    echo $zanr->tip;
+                                    echo "</a></li>";
+                                }
                                 ?>
                             </ul>
                         </li>

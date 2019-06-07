@@ -1,24 +1,35 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @author David Milićević 2016/0055
  */
 
 /**
- * Description of ModelPesma
- *
- * @author David
+ * ModelPesma model - klasa za pristup tabeli pesma
+ * 
+ * @version 1.0
  */
 class ModelPesma extends CI_Model {
 
+    /**
+     * @var int broj redova koje treba prikazati na stranici za prikazivanje pesmi
+     */
     public $velicinaStranice = 3;
     
     public function __construct() {
         parent::__construct();
     }
-
+    
+    /**
+     * Dodavanje nove pesme u bazu
+     * 
+     * @param string $naziv naziv pesme
+     * @param string $putanja putanja do fajla u kojoj su sacuvani akordi za pesmu
+     * @param string $ytLink link ka Youtube videu za pesmu
+     * @param int $idZanr id zanra kojem pripada pesma
+     * @param int $idAutor id autora koji izvodi pesmu
+     * @param int $idKor id korisnika koji je dodao pesmu
+     * @return void
+     */
     public function dodajPesmu($naziv, $putanja, $ytLink, $idZanr, $idAutor, $idKor) {
         $this->db->set("naziv", $naziv);
         $this->db->set("stanje", "neodobrena");
@@ -31,6 +42,13 @@ class ModelPesma extends CI_Model {
         $this->db->insert("pesma");
     }
 
+    /**
+     * Dohvatanje zadate pesme
+     * 
+     * @param int $id id pesme
+     * @param boolean $uvecajBrojac da li treba uvecati brojac pristupa pesmi
+     * @return Pesma
+     */
     public function dohvatiPesmu($id, $uvecajBrojac = FALSE) {
         if ($uvecajBrojac) {
             $this->db->set("brPregleda", "brPregleda + 1", FALSE);
@@ -45,6 +63,14 @@ class ModelPesma extends CI_Model {
         return $this->db->get()->row();
     }
 
+    /**
+     * Dohvatanje broja pesama koji ispunjavaju zadate uslove
+     * 
+     * @param int $idZanr id zanra kojem pripadaju pesme
+     * @param int $idAutor id autora koji izvodi pesme
+     * @param string $pesmaPocinjeSlovom slovo kojim pocinju nazivi pesama
+     * @return int
+     */
     public function brojPesama($idZanr=NULL, $idAutor=NULL, $pesmaPocinjeSlovom = NULL){
         if ($idZanr != NULL && $idZanr != 0) {
             $this->db->where("idZanr", $idZanr);
@@ -59,16 +85,37 @@ class ModelPesma extends CI_Model {
         return $this->db->count_all_results("pesma");
     }
     
+    /**
+     * Dohvatanje broja pesama za zadatog korisnika
+     * 
+     * @param int $id id korisnika
+     * @return int
+     */
     public function brojPesamaZaKorisnika($id) {
         $this->db->where("idKor", $id);
         return $this->db->count_all_results("pesma");
     }
 
+    /**
+     * Dohvatanje broja neodobrenih pesama
+     * 
+     * @return int
+     */
     public function brojNeodobrenihPesama(){
         $this->db->where("stanje", "neodobrena");
         return $this->db->count_all_results("pesma");
     }
     
+    /**
+     * Dohvatanje pesama koji ispunjavaju zadate uslove
+     * 
+     * @param int $limit broj pesama koje treba dohvatiti
+     * @param int $start redni broj pesme od koje treba dohvatati
+     * @param int $idZanr id zanra kojem pripadaju pesme
+     * @param int $idAutor id autora koji izvodi pesme
+     * @param string $pesmaPocinjeSlovom slovo kojim pocinju nazivi pesama
+     * @return array
+     */
     public function dohvatiPesme($limit, $start, $idZanr = NULL, $idAutor = NULL, $pesmaPocinjeSlovom = NULL) {
         if ($idZanr != NULL && $idZanr != 0) {
             $this->db->where("idZanr", $idZanr);
@@ -88,6 +135,14 @@ class ModelPesma extends CI_Model {
         return $this->db->get()->result();
     }
     
+    /**
+     * Dohvatanje pesama koji je dodao zadati korisnik
+     * 
+     * @param int $limit broj pesama koje treba dohvatiti
+     * @param int $start redni broj pesme od koje treba dohvatati
+     * @param int $id id korisnika
+     * @return array
+     */
     public function dohvatiPesmeZaKorisnika($limit, $start, $id) {
         $this->db->where("idKor", $id);
         $this->db->from("pesma");
@@ -98,6 +153,13 @@ class ModelPesma extends CI_Model {
         return $this->db->get()->result();
     }
 
+    /**
+     * Dohvatanje neodobrenih pesama
+     * 
+     * @param int $limit broj pesama koje treba dohvatiti
+     * @param int $start redni broj pesme od koje treba dohvatati
+     * @return array
+     */
     public function dohvatiNeodobrenePesme($limit, $start){
         $this->db->from("pesma");
         $this->db->where("stanje", "neodobrena");
@@ -107,7 +169,13 @@ class ModelPesma extends CI_Model {
         $this->db->limit($limit, $start);
         return $this->db->get()->result();
     }
-
+    
+    /**
+     * Dohvatanje zadatog broja najpopularnijih pesama
+     * 
+     * @param int $number broj pesama koje treba dohvatiti
+     * @return array
+     */
     public function dohvatiNajpopularnijePesme($number) {
         $this->db->from("pesma");
         $this->db->join("autor", "autor.id = pesma.idAutor", 'left');
@@ -117,12 +185,29 @@ class ModelPesma extends CI_Model {
         return $this->db->get()->result();
     }
     
+    /**
+     * Odobravanje zadate pesme
+     * 
+     * @param int $id id pesme
+     * @return void
+     */
     public function odobriPesmu($id) {
         $this->db->set("stanje", "odobrena");
         $this->db->where("id", $id);
         $this->db->update("pesma");
     }
-
+    
+    /**
+     * Izmena zadate pesme
+     * 
+     * @param int $id id pesme
+     * @param string $naziv naziv pesme
+     * @param string $putanja putanja do fajla u kojoj su sacuvani akordi za pesmu
+     * @param string $ytLink link ka Youtube videu za pesmu
+     * @param int $idZanr id zanra kojem pripada pesma
+     * @param int $idAutor id autora koji izvodi pesmu
+     * @return void
+     */
     public function promeniPesmu($id, $naziv, $putanja, $ytLink, $idZanr, $idAutor) {
         $this->db->set("naziv", $naziv);
         $this->db->set("putanjaDoAkorda", $putanja);
@@ -132,7 +217,13 @@ class ModelPesma extends CI_Model {
         $this->db->where("id", $id);
         $this->db->update("pesma");
     }
-
+    
+    /**
+     * Brisanje zadate pesme iz baze
+     * 
+     * @param int $id id pesme
+     * @return void
+     */
     public function obrisiPesmu($id) {
         $this->db->where("id", $id);
         $this->db->delete("pesma");

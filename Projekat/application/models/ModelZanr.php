@@ -1,15 +1,12 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @author David Milićević 2016/0055
  */
 
 /**
- * Description of ModelZanr
- *
- * @author David
+ * ModelZanr model - klasa za pristup tabeli zanr
+ * 
+ * @version 1.0
  */
 class ModelZanr extends CI_Model {
     
@@ -17,6 +14,12 @@ class ModelZanr extends CI_Model {
         parent::__construct();
     }
     
+    /**
+     * Dohvatanje id-ja zanra sa zadatim nazivom
+     * 
+     * @param string $zanr naziv zanra
+     * @return int
+     */
     public function dohvatiId($zanr) {
         $row = $this->db->where("tip", $zanr)->get("zanr")->row();
         if ($row == null)
@@ -24,6 +27,11 @@ class ModelZanr extends CI_Model {
         return $row->id;
     }
     
+    /**
+     * Dohvatanje svih zanrova iz baze
+     * 
+     * @return array
+     */
     public function dohvatiZanrove() {
         return $this->db->get("zanr")->result();
     }

@@ -1,15 +1,12 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @author Ratko Amanović 2016/0061
  */
 
 /**
- * Description of Moderator
- *
- * @author ratko
+ * Gost controller - klasa za funkcionalnosti moderatora
+ * 
+ * @version 1.0
  */
 class Moderator extends CI_Controller {
 
@@ -38,7 +35,11 @@ class Moderator extends CI_Controller {
             }
         }
     }
-
+    /**
+     * Kreiranje index stranice za moderator kontroler
+     * 
+     * @return void
+     */
     public function index() {
         $args = array();
         $args["controller"] = "Moderator";
@@ -46,6 +47,11 @@ class Moderator extends CI_Controller {
         $this->prikazi("index.php", $args);
     }
 
+    /**
+     * Prikazivanje stranice sa listom akorda koji nisu odobreni
+     * 
+     * @return void
+     */
     public function odobravanjeAkorda() {
         $config = array();
         $config["base_url"] = base_url() . "/index.php/Moderator/odobravanjeAkorda/";
@@ -66,7 +72,12 @@ class Moderator extends CI_Controller {
         $data["pocetniRedniBr"] = $pocetniRedniBr + 1;
         $this->prikazi("list.php", $data);
     }
-
+    
+    /**
+     * Prikazivanje stranice sa listom komentara koji nisu odobreni
+     * 
+     * @return void
+     */
     public function odobravanjeKomentara() {
         $config = array();
         $config["base_url"] = base_url() . "/index.php/Moderator/odobravanjeKomentara/";
@@ -87,6 +98,13 @@ class Moderator extends CI_Controller {
         $this->prikazi("comment_list.php", $data);
     }
 
+     /**
+     * Parametrizovana funkcija za prikazivanje stranice sa zadatim glavnim delom.
+     * 
+     * @param string $glavniDeo Naziv view-a koji treba prikazati u glavnom delu
+     * @param array $data Skup parametara koje treba proslediti zaglavlju i glavnom delu
+     * @return void
+     */
     public function prikazi($glavniDeo, $data = null) {
         $data['zanrModel'] = $this->ModelZanr;
         $data['autorModel'] = $this->ModelAutor;
@@ -95,16 +113,32 @@ class Moderator extends CI_Controller {
         $this->load->view("footer.php");
     }
 
+    /**
+     * Odjavljivanje trenutnog korisnika sa sistema
+     * 
+     * @return void
+     */
     public function izlogujSe() {
         $this->session->unset_userdata("korisnik");
         $this->session->sess_destroy();
         redirect("Gost");
     }
-
+    
+    /**
+     * Prikazivanje stranice sa informacijama o autorima sajta
+     * 
+     * @return void
+     */
     public function onama() {
         $this->prikazi("onama.php");
     }
-
+    
+    /**
+     * Podesavanje parametara za brojanje stranica
+     * 
+     * @param array $config Niz koji treba popuniti parametrima za konfiguraciju brojanja stranica 
+     * @return void
+     */
     private function postaviConfigZaPaginaciju(&$config) {
         $config["full_tag_open"] = "<ul class='pagination'>";
         $config["full_tag_close"] = "</ul>";
@@ -117,7 +151,13 @@ class Moderator extends CI_Controller {
         $config["num_tag_open"] = "<li class='page-link'>";
         $config["num_tag_close"] = "</li>";
     }
-
+    
+    /**
+     * Prikazivanje stranice sa listom izvodjaca koji su selektovani zadatim parametrima
+     * 
+     * @param string $imePocinjeSlovom kojim slovom pocinju imena autora koje treba prikazivati
+     * @return void
+     */
     public function izvodjaci($imePocinjeSlovom = 0) {
         $config = array();
         $config["base_url"] = base_url() . "/index.php/moderator/izvodjaci/" . $imePocinjeSlovom . "/";
@@ -137,6 +177,14 @@ class Moderator extends CI_Controller {
         $this->prikazi("izvodjaci.php", $data);
     }
 
+    /**
+     * Prikazivanje stranice sa listom pesama koje su selektovane zadatim parametrima
+     * 
+     * @param int $idZanr id zanra za koji treba prikazivati pesme
+     * @param int $idAutor id autora za kojeg treba prikazivati pesme
+     * @param string $pesmaPocinjeSlovom kojim slovom pocinju pesme koje treba prikazivati 
+     * @return void
+     */
     public function muzika($idZanr = 0, $idAutor = 0, $pesmaPocinjeSlovom = 0) {
         $config = array();
         $config["base_url"] = base_url() . "/index.php/Moderator/muzika/" . $idZanr . "/" . $idAutor . "/" . $pesmaPocinjeSlovom . "/";
@@ -158,6 +206,12 @@ class Moderator extends CI_Controller {
         $this->prikazi("list.php", $data);
     }
 
+    /**
+     * Prikazivanje stranice za akorde
+     * 
+     * @param int $id id pesme koju treba prikazati
+     * @return void
+     */
     public function pesma($id) {
         $args = array();
         $args["pesma"] = $this->ModelPesma->dohvatiPesmu($id, TRUE);
@@ -166,32 +220,63 @@ class Moderator extends CI_Controller {
         $this->prikazi("pesma.php", $args);
     }
 
+    /**
+     * Odobravanje neodobrenog komentara
+     * 
+     * @return void
+     */
     public function odobriKomentar($id) {
         $this->ModelKomentar->odobriKomentar($id);
         redirect("moderator/odobravanjeKomentara");
     }
-
+    
+    /**
+     * Brisanje komentara iz baze
+     * 
+     * @return void
+     */
     public function obrisiKomentar($id) {
         $this->ModelKomentar->obrisiKomentar($id);
         redirect("moderator/odobravanjeKomentara");
     }
-
+    
+    /**
+     * Odobravanje neodobrene pesme u bazi
+     * 
+     * @return void
+     */
     public function odobriPesmu($id) {
         $this->ModelPesma->odobriPesmu($id);
         redirect("moderator/odobravanjeAkorda");
     }
 
+    /**
+     * Brisanje pesme iz baze
+     * 
+     * @return void
+     */
     public function obrisiPesmu($id) {
         $this->ModelPesma->obrisiPesmu($id);
         redirect("moderator/odobravanjeAkorda");
     }
-
+    
+    /**
+     * Prikazivanje stranice za dodavanje novih akorda
+     * 
+     * @return void
+     */
     public function dodajAkordePrikaz() {
         $args = array();
         $args["controller"] = "moderator";
         $this->prikazi("dodaj_akorde.php", $args);
     }
 
+    /**
+     * Dohvatanje id-ja autora sa zadatim imenom ili kreiranje novog autora ukoliko ne postoji
+     * 
+     * @param string $autor naziv autora
+     * @return int
+     */
     private function dohvatiAutorIdIliDodaj($autor) {
         $id = $this->ModelAutor->dohvatiId($autor);
         if ($id != null) {
@@ -201,7 +286,13 @@ class Moderator extends CI_Controller {
         $id = $this->ModelAutor->dohvatiId($autor);
         return $id;
     }
-
+    
+    /**
+     * Dodavanje novih akorda 
+     * (poziva se iz frontend dela i parametri se prosledjuju post metodom)
+     * 
+     * @return void
+     */
     public function dodajAkorde() {
         $korisnikId = $this->session->userdata('korisnik')->id;
         
@@ -226,6 +317,11 @@ class Moderator extends CI_Controller {
         redirect("Moderator");
     }
 
+    /**
+     * Prikazivanje stranice sa akordima koje je kreirao trenutno ulogovani korisnik
+     * 
+     * @return void
+     */
     public function mojiAkordiPrikaz() {
         $korisnikId = $this->session->userdata('korisnik')->id;
 
@@ -248,6 +344,12 @@ class Moderator extends CI_Controller {
         $this->prikazi("listZaKorisnika.php", $data);
     }
 
+    /**
+     * Prikazivanje stranice za izmenu akorda za konkretnu pesmu
+     * 
+     * @param int $idPesme id pesme koju treba izmeniti
+     * @return void
+     */
     public function pesmaZaKorisnika($idPesme) {
         $pesma = $this->ModelPesma->dohvatiPesmu($idPesme, FALSE);
 
@@ -262,6 +364,12 @@ class Moderator extends CI_Controller {
         $this->prikazi("izmeni_akorde.php", $args);
     }
 
+    /**
+     * Izmena vec postojecih akorda
+     * (poziva se iz frontend dela i parametri se prosledjuju post metodom)
+     * 
+     * @return void
+     */
     public function izmeniAkorde() {
         $idPesme = $this->input->post("idPesme");
         $putanjaDoAkorda = $this->input->post("putanjaDoAkorda");
@@ -278,6 +386,12 @@ class Moderator extends CI_Controller {
         redirect("Moderator");
     }
 
+    /**
+     * Cuvanje komentara 
+     * (poziva se iz frontend dela i parametri se prosledjuju post metodom)
+     * 
+     * @return void
+     */
     public function ostaviKomentar() {
         $text = $this->input->post("komentarTekst");
         $idPes = $this->input->post("idPesme");

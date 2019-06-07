@@ -1,14 +1,11 @@
-
-<!---->  <section class="page-section about-heading">
+<!-- @author Andrija Veljković 2016/0328 -->
+<section class="page-section about-heading">
     <div class="container">
-
         <div class="about-heading-content">
             <div class="row ">
                 <div class="col-xl-12 col-lg-12 mx-auto ">
                     <div class="bg-faded rounded p-5">
                         <h2 class="section-heading mb-4">
-                            <!--<span class="section-heading-upper">Dobar sajt, dobar posao</span>
-                            <span class="section-heading-lower">O nama</span>-->
                             <span class="section-heading-upper"><?php echo $pesma->autor ?></span>
                             <span class="section-heading-lower"><?php echo $pesma->naziv ?></span>
                         </h2>
@@ -22,16 +19,16 @@
                             <div class ="col-xl-4">
 
                                 <?php
-                                    $ytLinkHeaders = @get_headers($pesma->ytLink);
-                                    if ($ytLinkHeaders && $ytLinkHeaders[0] != "HTTP/1.1 404 Not Found" && strpos($pesma->ytLink, "youtube" !== false)) {
-                                ?>
-                                        <div class ="col-xl-12 ml-0 ">
-                                            <center>
-                                                <iframe src= "<?php echo $pesma->ytLink; ?>" ></iframe> <!-- $pesma->link da se ubaci-->
-                                            </center>
-                                        </div>
-                                <?php
-                                    }
+                                $ytLinkHeaders = @get_headers($pesma->ytLink);
+                                if ($ytLinkHeaders && $ytLinkHeaders[0] != "HTTP/1.1 404 Not Found" && strpos($pesma->ytLink, "youtube" !== false)) {
+                                    ?>
+                                    <div class ="col-xl-12 ml-0 ">
+                                        <center>
+                                            <iframe src= "<?php echo $pesma->ytLink; ?>" ></iframe> <!-- $pesma->link da se ubaci-->
+                                        </center>
+                                    </div>
+                                    <?php
+                                }
                                 ?>
                                 <div class ="col-xl-12 mt-5 mx-auto">
                                     <script type="text/javascript" src="<?php echo base_url(); ?>assets/vendor/timer.js"></script>
@@ -91,7 +88,7 @@
                                 ?>
                                 <form name="commentform" action="<?php echo site_url("$controller/ostaviKomentar"); ?>" method="post">
                                     <input type = "hidden" name = "idPesme" value = "<?php echo $pesma->id; ?>"> 
-                                      <div class ="row mt-2">
+                                    <div class ="row mt-2">
                                         <div class = "col-xl-5">
                                             <div class="md-form">
                                                 <strong>Dodaj komentar:</strong>
@@ -120,7 +117,7 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-10">
-                                                <p class="float-left text-info" ><strong>' . $komentar->username . ' ('. $komentar->vreme .')</strong></p>
+                                                <p class="float-left text-info" ><strong>' . $komentar->username . ' (' . $komentar->vreme . ')</strong></p>
                                                 <div class="clearfix"></div>
                                                 <p>' . $komentar->text . '</p>
                                             </div>
@@ -137,5 +134,4 @@
             </div>
         </div>
     </div>
-</div>
 </section>

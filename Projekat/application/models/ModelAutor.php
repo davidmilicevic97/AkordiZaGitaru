@@ -1,15 +1,12 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @author David Milićević 2016/0055
  */
 
 /**
- * Description of ModelAutor
- *
- * @author David
+ * ModelAutor model - klasa za pristup tabeli autora
+ * 
+ * @version 1.0
  */
 class ModelAutor extends CI_Model {
 
@@ -17,11 +14,23 @@ class ModelAutor extends CI_Model {
         parent::__construct();
     }
 
+    /**
+     * Dodavanje novog autora u bazu
+     * 
+     * @param string $naziv naziv autora
+     * @return void
+     */
     public function dodajAutora($naziv) {
         $this->db->set("naziv", $naziv);
         $this->db->insert("autor");
     }
     
+    /**
+     * Dohvatanje id-ja autora sa zadatim imenom
+     * 
+     * @param string $autor naziv autora
+     * @return int
+     */
     public function dohvatiId($autor) {
         $row = $this->db->where("naziv", $autor)->get("autor")->row();
         if ($row == null) {
@@ -29,7 +38,13 @@ class ModelAutor extends CI_Model {
         }
         return $row->id;
     }
-
+    
+    /**
+     * Dohvatanje naziva autora sa zadatim id-jem
+     * 
+     * @param int $id id autora
+     * @return string
+     */
     public function dohvatiImeAutora($id) {
         $row = $this->db->where("id", $id)->get("autor")->row();
         if ($row == null) {
@@ -38,6 +53,12 @@ class ModelAutor extends CI_Model {
         return $row->naziv;
     }
     
+    /**
+     * Dohvatanje broja autora ciji naziv ispunjava zadate uslove
+     * 
+     * @param string $imePocinjeSlovom slovo kojim pocinju nazivi autora
+     * @return int
+     */
     public function brojAutora($imePocinjeSlovom = NULL) {
         if ($imePocinjeSlovom != NULL && $imePocinjeSlovom != "0") {
             $this->db->like("naziv", strtoupper($imePocinjeSlovom), "after");
@@ -45,7 +66,15 @@ class ModelAutor extends CI_Model {
         }
         return $this->db->count_all_results('autor');
     }
-
+    
+    /**
+     * Dohvatanje autora koji ispunjavaju zadate uslove
+     * 
+     * @param int $limit broj autora koje treba dohvatiti
+     * @param int $start redni broj autora od koga treba dohvatati
+     * @param string $imePocinjeSlovom slovo kojim pocinju nazivi autora
+     * @return array
+     */
     public function dohvatiAutore($limit, $start, $imePocinjeSlovom = NULL) {
         if ($imePocinjeSlovom != NULL && $imePocinjeSlovom != "0") {
             $this->db->like("naziv", strtoupper($imePocinjeSlovom), "after");
