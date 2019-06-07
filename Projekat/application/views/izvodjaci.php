@@ -16,12 +16,12 @@
                         <div class ="row">
                             <div class="col-xl-9 ">
                                 <?php
-                                    echo "<ul class='pagination'>";
-                                    foreach (array("A", "B", "C", "Č", "Ć", "D", "Dž", "Đ", "E",
-                                        "F", "G", "H", "I", "J", "K", "L", "Lj", "M", "N", "Nj", "O",
-                                        "P", "R", "S", "Š", "T", "U", "V", "Z", "Ž", "Q", "W", "X", "Y") as $pocetnoSlovo) {
-                                        echo "<li class='page-link'><a href=". site_url("$controller/izvodjaci/$pocetnoSlovo") .">$pocetnoSlovo</a></li> ";
-                                    }
+                                    echo "<ul class='list-group' style='clear: both; display: block;content: '';'>";
+                                        foreach (array("A", "B", "C", "Č", "Ć", "D", "Dž", "Đ", "E",
+                                            "F", "G", "H", "I", "J", "K", "L", "Lj", "M", "N", "Nj", "O",
+                                            "P", "R", "S", "Š", "T", "U", "V", "Z", "Ž", "Q", "W", "X", "Y") as $pocetnoSlovo) {
+                                            echo "<li class='list-group-item' style='float:left'  ><a href=". site_url("$controller/muzika/". (isset($idZanr) ? $idZanr : "0") ."/0/$pocetnoSlovo") .">$pocetnoSlovo</a></li> ";
+                                        }
                                     echo "</ul>";
                                 ?>
                                 <table class ="table table-striped table-hover">
