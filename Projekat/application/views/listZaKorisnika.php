@@ -1,4 +1,5 @@
 <!-- @author David Milićević 2016/0055 -->
+<!-- @author Andrija Veljković 2016/0328 -->
 <section class="page-section about-heading">
     <div class="container">
         <div class="about-heading-content">
