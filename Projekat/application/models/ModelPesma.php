@@ -13,7 +13,7 @@ class ModelPesma extends CI_Model {
     /**
      * @var int broj redova koje treba prikazati na stranici za prikazivanje pesmi
      */
-    public $velicinaStranice = 3;
+    public $velicinaStranice = 10;
     
     public function __construct() {
         parent::__construct();
