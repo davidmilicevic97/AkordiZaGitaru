@@ -20,7 +20,7 @@
 
                                 <?php
                                 $ytLinkHeaders = @get_headers($pesma->ytLink);
-                                if ($ytLinkHeaders && $ytLinkHeaders[0] != "HTTP/1.1 404 Not Found" && strpos($pesma->ytLink, "youtube" !== false)) {
+                                if ($ytLinkHeaders && $ytLinkHeaders[0] != "HTTP/1.1 404 Not Found" && strpos($pesma->ytLink, "youtube") !== false) {
                                     ?>
                                     <div class ="col-xl-12 ml-0 ">
                                         <center>
