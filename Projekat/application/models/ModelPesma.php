@@ -225,6 +225,8 @@ class ModelPesma extends CI_Model {
      * @return void
      */
     public function obrisiPesmu($id) {
+        $putanjaDoAkorda = $this->dohvatiPesmu($id)->putanjaDoAkorda;
+        unlink($putanjaDoAkorda);
         $this->db->where("id", $id);
         $this->db->delete("pesma");
     }
