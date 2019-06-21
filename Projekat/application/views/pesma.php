@@ -12,9 +12,9 @@
 
                         <div class ="row">
                             <div class ="col-xl-8 text-justify">
-                                <?php
+                                <pre><?php
                                 echo file_get_contents($pesma->putanjaDoAkorda);
-                                ?> 
+                                ?> </pre>
                             </div>
                             <div class ="col-xl-4">
 
